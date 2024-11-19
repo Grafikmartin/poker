@@ -1,0 +1,405 @@
+/* Allgemeines Styling */
+body {
+  font-family: Arial, sans-serif;
+  background-image: url(./assets/friedhof.jpg);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+* {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+#poker-table {
+  position: relative;
+  width: 800px;
+  height: 520px;
+  background: url("assets/tisch.png") no-repeat center;
+  background-size: cover;
+  margin: 20px 0;
+  background-position: center;
+}
+
+/* Gemeinschaftskarten */
+#community-cards {
+  position: absolute;
+  top: 50%; /* Zentriert in der Mitte des Tisches */
+  left: 50%; /* Zentriert in der Mitte des Tisches */
+  transform: translate(-50%, -50%); /* Exakte Zentrierung */
+  display: flex;
+  flex-direction: column; /* Pot über den Karten */
+  align-items: center; /* Zentriert Pot und Karten */
+  gap: 10px; /* Abstand zwischen Pot und Karten */
+}
+
+#pot {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 5px 15px;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.card-placeholder-container {
+  display: flex; /* Karten horizontal nebeneinander */
+  gap: 10px; /* Abstand zwischen den Karten */
+}
+
+.card-placeholder {
+  width: 50px;
+  height: 75px;
+  border: 5px solid rgba(3, 102, 47, 0.2);
+  border-radius: 8px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* Karten */
+.card {
+  width: 50px;
+  height: 75px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+  text-align: center;
+  animation-duration: 0.5s; /* Dauer der Animation */
+  animation-fill-mode: forwards; /* Animation bleibt im Endzustand */
+}
+
+.card .value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.card .suit {
+  font-size: 35px;
+}
+
+.card.red .value,
+.card.red .suit {
+  color: red;
+}
+
+.card.black .value,
+.card.black .suit {
+  color: black;
+}
+
+/* Spieler */
+.player {
+  position: absolute;
+  width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+#player1 {
+  bottom: -12%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.player-image1 {
+background-image: url(./assets/you.jpg);
+background-size: cover;
+height: 57px;
+width: 137px;
+border-radius: 8px; 
+margin-bottom: 6px;
+border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+#player2 {
+  bottom: 20%;
+  left: 10%;
+  transform: translate(-50%, 50%);
+}
+.player-image2 {
+  background-image: url(./assets/Lord.jpg);
+  background-size: cover;
+  height: 57px;
+  width: 137px;
+  border-radius: 8px; 
+  margin-bottom: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+#player3 {
+  top: 20%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+}
+.player-image3 {
+  background-image: url(./assets/lady.jpg);
+  background-size: cover;
+  height: 57px;
+  width: 137px;
+  border-radius: 8px; 
+  margin-bottom: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+#player4 {
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.player-image4 {
+  background-image: url(./assets/hannibal.jpg);
+  background-size: cover;
+  height: 57px;
+  width: 137px;
+  border-radius: 8px; 
+  margin-bottom: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+#player5 {
+  top: 20%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+}
+.player-image5 {
+  background-image: url(./assets/mephisto.jpg);
+  background-size: cover;
+  height: 57px;
+  width: 137px;
+  border-radius: 8px; 
+  margin-bottom: 6px;
+  
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+#player6 {
+  bottom: 20%;
+  left: 90%;
+  transform: translate(-50%, 50%);
+}
+.player-image6 {
+  background-image: url(./assets/sauron.jpg);
+  background-size: cover;
+  height: 57px;
+  width: 137px;
+  border-radius: 8px; 
+  margin-bottom: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+
+/* Marker */
+.marker {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+  visibility: hidden;
+  position: absolute;
+}
+
+.marker.d {
+  color: black;
+  background-image: url(./assets/bronze-sb.jpg);
+  background-size: cover;
+  right: -22%;
+  top: 35%;
+  border: 2px solid rgba(253, 253, 253, 0.5);
+  transform: scale(0.8);
+}
+
+.marker.bb {
+  color: black;
+  background-image: url(./assets/gold-bb.jpg);
+  background-size: cover;
+  left: -35px;
+  top: 35%;
+
+  border: 2px solid rgba(88, 100, 72, 0.5);
+}
+
+.marker.sb {
+  color: black;
+  background-image: url(./assets/gold-bb.jpg);
+  background-size: cover;
+  left: -35px;
+  top: 35%;
+  border: 2px solid rgba(88, 100, 72, 0.5);
+  transform: scale(0.8);
+}
+
+/* Steuerung */
+#controls {
+  display: flex;
+  flex-direction: column; /* Vertikale Anordnung */
+  align-items: center;
+  gap: 15px; /* Abstand zwischen Bet Controls und Buttons */
+  margin-top: 50px; /* Abstand nach oben */
+}
+
+button {
+  padding: 10px 20px;
+  background-color: rgba(13, 136, 68, 0.5);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+button:hover {
+  background-color: #006e2e;
+  transform: scale(1.05);
+  -webkit-box-shadow: 0px 0px 8px 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0px 0px 4px 2px rgba(255, 252, 103, 0.3);
+}
+.chips {
+  color: #ffd700;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+@keyframes dealCard {
+  from {
+    transform: translateX(
+      -150vw
+    ); /* Startpunkt: links außerhalb des Bildschirms */
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0); /* Endpunkt: Normale Position */
+    opacity: 1;
+  }
+}
+
+.cards {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+/* Bet-Positionen */
+.bet {
+  position: absolute;
+  font-size: 17px;
+  font-weight: bold;
+  color: #ffd700;
+  background-color: rgba(0, 0, 0, 0);
+  padding: 5px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* Positionen für die Bets */
+#player1 .bet {
+  bottom: 105%; /* Über Spieler 1 */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#player2 .bet {
+  top: -10%; /* Rechts neben Spieler 2 */
+  left: 115%;
+  transform: translate(-50%, -50%);
+}
+
+#player3 .bet {
+  top: 110%; /* Rechts unter Spieler 3 */
+  left: 115%;
+  transform: translate(-50%, -50%);
+}
+
+#player4 .bet {
+  top: 105%; /* Unter Spieler 4 */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#player5 .bet {
+  top: 110%; /* Links unter Spieler 5 */
+  left: -20%;
+  transform: translate(-50%, -50%);
+}
+
+#player6 .bet {
+  top: -10%; /* Links über Spieler 6 */
+  left: -20%;
+  transform: translate(-50%, -50%);
+}
+
+/* Container für Slider und Raise Amount */
+#bet-controls {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  width: 500px; /* Breite erhöhen */
+}
+
+/* Styling für den Bet Slider Container */
+#bet-slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 5px;
+}
+
+.slider-wrapper {
+  display: flex;
+  align-items: center; /* Horizontale Ausrichtung */
+  gap: 10px; /* Abstand zwischen Slider und Wert */
+}
+
+#bet-slider {
+  width: 200px; /* Breite des Sliders */
+}
+
+#bet-value {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffd700; /* Goldene Farbe */
+}
+#raise-amount {
+  width: 150px; /* Breite erhöhen */
+  padding: 8px; /* Innenabstand erhöhen für besseren Look */
+  font-size: 16px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Button Controls */
+#button-controls {
+  display: flex;
+  gap: 10px; /* Abstand zwischen den Buttons */
+}
