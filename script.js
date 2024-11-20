@@ -1,5 +1,34 @@
 import { makeDecision, executeDecision } from "./ai.js";
 
+const fullscreenEnter = document.getElementById("fullscreen-enter");
+const fullscreenExit = document.getElementById("fullscreen-exit");
+
+// Vollbild aktivieren
+fullscreenEnter.addEventListener("click", () => {
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  } else if (document.documentElement.webkitRequestFullscreen) {
+    document.documentElement.webkitRequestFullscreen();
+  } else if (document.documentElement.msRequestFullscreen) {
+    document.documentElement.msRequestFullscreen();
+  }
+  fullscreenEnter.style.display = "none";
+  fullscreenExit.style.display = "block";
+});
+
+// Vollbild deaktivieren
+fullscreenExit.addEventListener("click", () => {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+  }
+  fullscreenEnter.style.display = "block";
+  fullscreenExit.style.display = "none";
+});
+
 const players = [
     { id: "player1", name: "You", chips: 2500, bet: 0, active: true },
     { id: "player2", name: "Player 2", chips: 2500, bet: 0, active: true },
