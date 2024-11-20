@@ -17,17 +17,17 @@ body {
 /* Vollbildsteuerung */
 #fullscreen-controls {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 2vh;
+  right: 2vh;
   display: flex;
-  gap: 10px;
+  gap: 2vh;
 }
 
 #fullscreen-controls button {
   background-color: rgba(0, 0, 0, 0.7);
   border: none;
   border-radius: 8px;
-  padding: 10px;
+  padding: 1vh;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -40,17 +40,17 @@ body {
 }
 
 #fullscreen-controls .material-icons {
-  font-size: 24px;
+  font-size: 3vw;
   color: white;
 }
 
 #poker-table {
   position: relative;
-  width: 800px;
-  height: 520px;
+  width: 79vh;
+  height: 51vh;
   background: url("assets/tisch.png") no-repeat center;
   background-size: cover;
-  margin: 20px 0;
+  margin: 2vh 0;
   background-position: center;
 }
 
@@ -63,41 +63,41 @@ body {
   display: flex;
   flex-direction: column; /* Pot über den Karten */
   align-items: center; /* Zentriert Pot und Karten */
-  gap: 10px; /* Abstand zwischen Pot und Karten */
+  gap: 1vw; /* Abstand zwischen Pot und Karten */
 }
 
 #pot {
   text-align: center;
   font-size: 18px;
   font-weight: bold;
-  color: white;
+  color: rgb(231, 177, 0);
   background-color: rgba(0, 0, 0, 0.1);
-  padding: 5px 15px;
+  padding: 1vh 2vh;
   border-radius: 8px;
   z-index: 1;
 }
 
 .card-placeholder-container {
   display: flex; /* Karten horizontal nebeneinander */
-  gap: 10px; /* Abstand zwischen den Karten */
+  gap: 1vw; /* Abstand zwischen den Karten */
 }
 
 .card-placeholder {
-  width: 50px;
-  height: 75px;
-  border: 5px solid rgba(3, 102, 47, 0.2);
-  border-radius: 8px;
+  width: 6vh;
+  height: 9vh;
+  border: 0.5vh solid rgba(3, 102, 47, 0.2);
+  border-radius: 5px;
   background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 3vh;
 }
 
 /* Karten */
 .card {
-  width: 50px;
-  height: 75px;
+  width: 6vh;
+  height: 9vh;
   border: 1px solid black;
   border-radius: 5px;
   background-color: white;
@@ -110,15 +110,16 @@ body {
   text-align: center;
   animation-duration: 0.5s; /* Dauer der Animation */
   animation-fill-mode: forwards; /* Animation bleibt im Endzustand */
+  margin-bottom: 0.5vw;
 }
 
 .card .value {
-  font-size: 24px;
+  font-size: 3vh;
   font-weight: bold;
 }
 
 .card .suit {
-  font-size: 35px;
+  font-size: 5vh;
 }
 
 .card.red .value,
@@ -134,7 +135,8 @@ body {
 /* Spieler */
 .player {
   position: absolute;
-  width: 140px;
+  width: 15vw;
+  height: 20vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -142,8 +144,9 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
-  padding: 10px;
+  margin-bottom: 0.5vw;
   text-align: center;
+  font-size: 1.3vh;
 }
 
 #player1 {
@@ -154,11 +157,12 @@ body {
 .player-image1 {
   background-image: url(./assets/you.jpg);
   background-size: cover;
-  height: 57px;
-  width: 137px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  height: 6vw;
+  width: 15vw;
+  border-top-left-radius: 10px;  /* Obere linke Ecke */
+  border-top-right-radius: 10px; /* Obere rechte Ecke */
+  margin-bottom: 0.3vw;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 #player2 {
@@ -169,11 +173,12 @@ body {
 .player-image2 {
   background-image: url(./assets/Lord.jpg);
   background-size: cover;
-  height: 57px;
-  width: 137px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  height: 6vw;
+  width: 15vw;
+  border-top-left-radius: 10px;  /* Obere linke Ecke */
+  border-top-right-radius: 10px; /* Obere rechte Ecke */
+  margin-bottom: 0.3vw;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 #player3 {
@@ -184,11 +189,12 @@ body {
 .player-image3 {
   background-image: url(./assets/lady.jpg);
   background-size: cover;
-  height: 57px;
-  width: 137px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  height: 6vw;
+  width: 15vw;
+  border-top-left-radius: 10px;  /* Obere linke Ecke */
+  border-top-right-radius: 10px; /* Obere rechte Ecke */
+  margin-bottom: 0.3vw;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 #player4 {
@@ -199,11 +205,12 @@ body {
 .player-image4 {
   background-image: url(./assets/hannibal.jpg);
   background-size: cover;
-  height: 57px;
-  width: 137px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  height: 6vw;
+  width: 15vw;
+  border-top-left-radius: 10px;  /* Obere linke Ecke */
+  border-top-right-radius: 10px; /* Obere rechte Ecke */
+  margin-bottom: 0.3vw;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 #player5 {
@@ -214,12 +221,12 @@ body {
 .player-image5 {
   background-image: url(./assets/mephisto.jpg);
   background-size: cover;
-  height: 57px;
-  width: 137px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  height: 6vw;
+  width: 15vw;
+  border-top-left-radius: 10px;  /* Obere linke Ecke */
+  border-top-right-radius: 10px; /* Obere rechte Ecke */
+  margin-bottom: 0.3vw;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 #player6 {
@@ -230,23 +237,24 @@ body {
 .player-image6 {
   background-image: url(./assets/sauron.jpg);
   background-size: cover;
-  height: 57px;
-  width: 137px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  height: 6vw;
+  width: 15vw;
+  border-top-left-radius: 10px;  /* Obere linke Ecke */
+  border-top-right-radius: 10px; /* Obere rechte Ecke */
+  margin-bottom: 0.3vw;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Marker */
 .marker {
-  width: 40px;
-  height: 40px;
+  width: 3vw;
+  height: 3vw;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1.6vw;
   visibility: hidden;
   position: absolute;
 }
@@ -275,7 +283,7 @@ body {
   color: black;
   background-image: url(./assets/gold-bb.jpg);
   background-size: cover;
-  left: -8px;
+  left: -6%;
   top: -4%;
   border: 1px solid rgba(111, 78, 2, 0.2);
   transform: scale(0.8);
@@ -283,19 +291,18 @@ body {
 
 .cards {
   display: flex;
-  gap: 5px;
+  gap: 1vw;
   justify-content: center;
 }
 
 /* Bet-Positionen */
 .bet {
   position: absolute;
-  font-size: 17px;
+  font-size: 1.vw;
   font-weight: bold;
-  color: #ffd700;
-  background-color: rgba(0, 0, 0, 0);
-  padding: 5px;
-  border-radius: 12px;
+  color: #ffffff;
+
+  padding: 1vw;
   text-align: center;
 }
 
@@ -339,20 +346,11 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* Container für Slider und Raise Amount */
-#bet-controls {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  width: 500px; /* Breite erhöhen */
-}
 .chips {
   color: #ffd700;
-  font-size: 14px;
+  font-size: 1.6vh;
   font-weight: bold;
-  margin: 10px 0;
+  margin: 0.5vw 0;
 }
 
 @keyframes dealCard {
@@ -374,37 +372,37 @@ body {
   display: flex;
   align-items: center; /* Zentriert vertikal */
   justify-content: space-evenly; /* Gleicher Abstand zwischen allen Elementen */
-  gap: 20px; /* Einheitlicher Abstand zwischen den Elementen */
+  gap: 2vw; /* Einheitlicher Abstand zwischen den Elementen */
   width: 100%; /* Nimmt die volle Breite des Containers */
-  max-width: 1200px; /* Optionale Begrenzung der Breite */
+  max-width: 80vw; /* Optionale Begrenzung der Breite */
   flex-wrap: nowrap; /* Verhindert Umbrechen */
-  overflow-x: auto; /* Ermöglicht horizontales Scrollen, falls der Platz nicht ausreicht */
+
   margin-top: 5vh;
 }
 #button-controls {
   display: flex;
   align-items: center; /* Zentriert vertikal */
   justify-content: center; /* Elemente zentriert horizontal */
-  gap: 15px; /* Gleicher Abstand zwischen den Buttons */
+  gap: 2vw; /* Gleicher Abstand zwischen den Buttons */
   flex-wrap: wrap; /* Ermöglicht das Umbrechen, falls nötig */
 }
 
 button {
-  padding: 10px 20px;
+  padding: 1.2vw 1.5vw;
   background-color: rgba(13, 136, 68, 0.5);
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1.2vw;
   border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 button:hover {
   background-color: #006e2e;
   transform: scale(1.05);
-  -webkit-box-shadow: 0px 0px 8px 5px rgba(0, 0, 0, 0.7);
-  box-shadow: 0px 0px 4px 2px rgba(255, 252, 103, 0.3);
+ 
+  box-shadow: 0px 0px 4px 2px rgba(255, 252, 103, 0.3), 0px 0px 8px 5px rgba(0, 0, 0, 0.7);
 }
 
 
@@ -415,33 +413,33 @@ button:hover {
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.7);
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.6);
-  padding: 4px;
+  padding: 0.5vw;
 }
 
 .slider-wrapper {
   display: flex;
   align-items: center; /* Horizontale Ausrichtung */
-  gap: 10px; /* Abstand zwischen Slider und Wert */
+  gap: 1vw; /* Abstand zwischen Slider und Wert */
 }
 
 #bet-slider {
-  width: 200px; /* Breite des Sliders */
+  width: 20vw; /* Breite des Sliders */
 }
 
 #bet-value {
-  font-size: 16px;
+  font-size: 2vw;
   font-weight: bold;
   color: #ffd700; /* Goldene Farbe */
 }
 #raise-amount {
-  width: 130px; /* Breite erhöhen */
-  font-size: 16px; /* Schriftgröße des Textes */
+  width: 12vw; /* Breite erhöhen */
+  font-size: 1.5vw; /* Schriftgröße des Textes */
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 5px;
-  height: 42px; /* Erhöht die Höhe des Eingabefelds */
+  border-radius: 10px;
+  height: 4vw; /* Erhöht die Höhe des Eingabefelds */
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   border-radius: 12px;
@@ -450,13 +448,13 @@ button:hover {
 /* Styling für größere Pfeile im Input */
 #raise-amount::-webkit-inner-spin-button,
 #raise-amount::-webkit-outer-spin-button {
-  height: 32px; /* Höhe der Pfeile */
-  width: 32px; /* Breite der Pfeile */
-  transform: scale(1.5); /* Vergrößert die Pfeile */
+  height: 5vw; /* Höhe der Pfeile */
+  width: 8vw; /* Breite der Pfeile */
+ 
 }
 
 /* Button Controls */
 #button-controls {
   display: flex;
-  gap: 10px; /* Abstand zwischen den Buttons */
+  gap: 1vw; /* Abstand zwischen den Buttons */
 }
