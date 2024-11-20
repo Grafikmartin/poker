@@ -3,6 +3,17 @@ import { makeDecision, executeDecision } from "./ai.js";
 const fullscreenEnter = document.getElementById("fullscreen-enter");
 const fullscreenExit = document.getElementById("fullscreen-exit");
 
+// intro 
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      const introOverlay = document.getElementById("intro-overlay");
+      if (introOverlay) {
+        introOverlay.remove();
+      }
+    }, 10000); // Entfernt nach 2 Sekunden
+  });
+  
+
 // Vollbild aktivieren
 fullscreenEnter.addEventListener("click", () => {
   if (document.documentElement.requestFullscreen) {
