@@ -21,8 +21,6 @@ body {
   right: 2vh;
   display: flex;
   gap: 2vh;
-  
- 
 }
 
 #fullscreen-controls button {
@@ -39,8 +37,6 @@ body {
 
 #fullscreen-controls button:hover {
   background-color: rgba(13, 136, 68, 0.8);
-  
-  
 }
 
 #fullscreen-controls .material-icons {
@@ -63,7 +59,7 @@ body {
 }
 
 #intro-overlay img {
-  width: 79vh; /* Gleiche Breite wie der poker-table */
+  width: 51vh; /* Gleiche Breite wie der poker-table */
   height: 51vh; /* Gleiche Höhe wie der poker-table */
   object-fit: cover;
   border-radius: 50%; /* Optional für abgerundete Ecken */
@@ -136,6 +132,7 @@ body {
 
 /* Karten */
 .card {
+  position: relative;
   width: 6vh;
   height: 9vh;
   border: 1px solid black;
@@ -146,7 +143,8 @@ body {
   justify-content: center;
   align-items: center;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
-  font-family: Arial, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   text-align: center;
   animation-duration: 0.5s; /* Dauer der Animation */
   animation-fill-mode: forwards; /* Animation bleibt im Endzustand */
@@ -154,12 +152,16 @@ body {
 }
 
 .card .value {
-  font-size: 3vh;
+  position: absolute; /* Positioniert die Zahl relativ zur Karte */
+  top: 5.5%;
+  font-size: 3.5vh;
   font-weight: bold;
 }
 
 .card .suit {
-  font-size: 5vh;
+  position: absolute; /* Positioniert die Zahl relativ zur Karte */
+  top: 30%;
+  font-size: 5.5vh;
 }
 
 .card.red .value,
@@ -176,7 +178,7 @@ body {
 .player {
   position: absolute;
   width: 20vh;
- 
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -200,7 +202,7 @@ body {
   background-size: cover;
   height: 7vh;
   width: 20vh;
-  border-top-left-radius: 10px;  /* Obere linke Ecke */
+  border-top-left-radius: 10px; /* Obere linke Ecke */
   border-top-right-radius: 10px; /* Obere rechte Ecke */
   margin-bottom: 0.3vw;
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
@@ -216,7 +218,7 @@ body {
   background-size: cover;
   height: 7vh;
   width: 20vh;
-  border-top-left-radius: 10px;  /* Obere linke Ecke */
+  border-top-left-radius: 10px; /* Obere linke Ecke */
   border-top-right-radius: 10px; /* Obere rechte Ecke */
   margin-bottom: 0.3vw;
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
@@ -232,7 +234,7 @@ body {
   background-size: cover;
   height: 7vh;
   width: 20vh;
-  border-top-left-radius: 10px;  /* Obere linke Ecke */
+  border-top-left-radius: 10px; /* Obere linke Ecke */
   border-top-right-radius: 10px; /* Obere rechte Ecke */
   margin-bottom: 0.3vw;
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
@@ -248,7 +250,7 @@ body {
   background-size: cover;
   height: 7vh;
   width: 20vh;
-  border-top-left-radius: 10px;  /* Obere linke Ecke */
+  border-top-left-radius: 10px; /* Obere linke Ecke */
   border-top-right-radius: 10px; /* Obere rechte Ecke */
   margin-bottom: 0.3vw;
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
@@ -264,7 +266,7 @@ body {
   background-size: cover;
   height: 7vh;
   width: 20vh;
-  border-top-left-radius: 10px;  /* Obere linke Ecke */
+  border-top-left-radius: 10px; /* Obere linke Ecke */
   border-top-right-radius: 10px; /* Obere rechte Ecke */
   margin-bottom: 0.3vw;
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
@@ -280,7 +282,7 @@ body {
   background-size: cover;
   height: 7vh;
   width: 20vh;
-  border-top-left-radius: 10px;  /* Obere linke Ecke */
+  border-top-left-radius: 10px; /* Obere linke Ecke */
   border-top-right-radius: 10px; /* Obere rechte Ecke */
   margin-bottom: 0.3vw;
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
@@ -344,7 +346,7 @@ body {
   color: #ffffff;
   padding: 1vw;
   text-align: center;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7)
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 /* Positionen für die Bets */
@@ -408,7 +410,6 @@ body {
   }
 }
 
-
 /* Steuerung */
 #controls {
   display: flex;
@@ -428,23 +429,37 @@ body {
 }
 
 button {
-  padding: 2vh 3vh;
+  padding: 1.6vh 2.5vh;
   background-color: rgba(13, 136, 68, 0.5);
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  font-size: 1.5vh;
+  font-size: 2vh;
   border: 2px solid rgba(255, 255, 255, 0.2);
 }
+#fold-button {
+  background-color: rgba(169, 158, 0, 0.4);
+}
+#check-button {
+  background-color: rgba(0, 105, 129, 0.4);
+}
+
+#call-button {
+  background-color: rgba(255, 89, 0, 0.4);
+}
+#raise-button {
+  background-color: rgba(255, 0, 0, 0.4);
+}
+
 
 button:hover {
   background-color: #006e2e;
   transform: scale(1.05);
- 
-  box-shadow: 0px 0px 4px 2px rgba(255, 252, 103, 0.3), 0px 0px 8px 5px rgba(0, 0, 0, 0.7);
-}
 
+  box-shadow: 0px 0px 4px 2px rgba(255, 254, 215, 0.3),
+    0px 0px 8px 5px rgba(0, 0, 0, 0.7);
+}
 
 /* Styling für den Bet Slider Container */
 #bet-slider-container {
@@ -461,7 +476,7 @@ button:hover {
 }
 
 .slider-wrapper {
-height: 1vh;
+  height: 1vh;
   display: flex;
   align-items: center; /* Horizontale Ausrichtung */
   gap: 1vw; /* Abstand zwischen Slider und Wert */
@@ -494,7 +509,6 @@ height: 1vh;
 #raise-amount::-webkit-outer-spin-button {
   height: 5vw; /* Höhe der Pfeile */
   width: 8vw; /* Breite der Pfeile */
- 
 }
 
 /* Button Controls */
