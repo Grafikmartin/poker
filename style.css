@@ -2,6 +2,7 @@
 body {
   font-family: Arial, sans-serif;
   background-image: url(./assets/friedhof.jpg);
+  background-repeat: no-repeat;
   color: white;
   display: flex;
   flex-direction: column;
@@ -45,24 +46,26 @@ body {
 }
 
 #intro-overlay {
-  position: absolute;
-  top: -7vh;
+  position: fixed; /* Über alles andere, bleibt beim Scrollen fixiert */
+  top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw; /* Deckt die gesamte Breite des Viewports ab */
+  height: 100vh; /* Deckt die gesamte Höhe des Viewports ab */
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 1); /* Optionaler dunkler Hintergrund */
+  background-color: rgba(0, 0, 0, 0.8); /* Optional: Ein dunkler Hintergrund */
+  background-image: url('assets/your-background.jpg'); /* Setzt das gewünschte Bild */
+  background-size: cover; /* Bild füllt den gesamten Bereich */
+  background-position: center; /* Bild zentrieren */
+  background-repeat: no-repeat; /* Kein Wiederholen des Bildes */
   z-index: 1000; /* Über alles andere */
-  animation: fadeOut 10s ease-in-out forwards; /* Weichere und längere Animation */
+  animation: fadeOut 10s ease-in-out forwards; /* Optional: Sanfte Ausblendung */
 }
-
 #intro-overlay img {
-  width: 51vh; /* Gleiche Breite wie der poker-table */
-  height: 51vh; /* Gleiche Höhe wie der poker-table */
+  
   object-fit: cover;
-  border-radius: 50%; /* Optional für abgerundete Ecken */
+  
   transition: transform 10s ease-in-out; /* Weichere Größenanpassung */
   box-shadow: 0 0 50px 50px rgba(0, 0, 0, 0.5);
 }
@@ -175,6 +178,10 @@ body {
 }
 
 /* Spieler */
+/* Spieler-Container */
+
+
+
 .player {
   position: absolute;
   width: 20vh;
