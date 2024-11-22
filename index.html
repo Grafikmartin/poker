@@ -10,33 +10,32 @@
     <div id="intro-overlay">
       <img src="assets/DeadMansHand.jpg" alt="Intro" />
     </div>
-    
-  <!-- Vollbildsteuerung -->
-  <div id="reload-controls">
-    <button onclick="location.reload()">
+
+    <!-- Vollbildsteuerung -->
+    <div id="reload-controls">
+      <button onclick="location.reload()">
         <span class="material-icons">refresh</span>
-    </button>
-</div>
+      </button>
+    </div>
 
-<div id="fullscreen-controls">
-  <button id="fullscreen-enter">
-    <span class="material-icons">fullscreen</span>
-  </button>
-  <button id="fullscreen-exit" style="display: none;">
-    <span class="material-icons">fullscreen_exit</span>
-  </button>
-</div>
+    <div id="fullscreen-controls">
+      <button id="fullscreen-enter">
+        <span class="material-icons">fullscreen</span>
+      </button>
+      <button id="fullscreen-exit" style="display: none">
+        <span class="material-icons">fullscreen_exit</span>
+      </button>
+    </div>
 
-<!-- Google Material Icons einbinden -->
-<link
-  href="https://fonts.googleapis.com/icon?family=Material+Icons"
-  rel="stylesheet"
-/>
+    <!-- Google Material Icons einbinden -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
 
     <div id="poker-table">
       <!-- Gemeinschaftskarten -->
       <div id="community-cards">
-       
         <!-- Pot knapp über den Karten -->
         <div class="card-placeholder-container">
           <div class="card-placeholder"></div>
@@ -50,7 +49,10 @@
 
       <!-- Spielerplätze -->
       <div id="player1-container" class="player-container">
-        <div class="overlay-image" style="background-image: url('assets/you100.jpg');"></div>
+        <div
+          class="overlay-image"
+          style="background-image: url('assets/you100.jpg')"
+        ></div>
         <div class="player" id="player1">
           <div class="info">
             <span class="marker" id="marker-player1"></span>
@@ -62,9 +64,12 @@
           <div class="cards"></div>
         </div>
       </div>
-  
+
       <div id="player2-container" class="player-container">
-        <div class="overlay-image" style="background-image: url('assets/lord100.jpg');"></div>
+        <div
+          class="overlay-image"
+          style="background-image: url('assets/lord100.jpg')"
+        ></div>
         <div class="player" id="player2">
           <div class="info">
             <span class="marker" id="marker-player2"></span>
@@ -76,9 +81,12 @@
           <div class="cards"></div>
         </div>
       </div>
-  
+
       <div id="player3-container" class="player-container">
-        <div class="overlay-image" style="background-image: url('assets/lady100.jpg');"></div>
+        <div
+          class="overlay-image"
+          style="background-image: url('assets/lady100.jpg')"
+        ></div>
         <div class="player" id="player3">
           <div class="info">
             <span class="marker" id="marker-player3"></span>
@@ -90,9 +98,12 @@
           <div class="cards"></div>
         </div>
       </div>
-  
+
       <div id="player4-container" class="player-container">
-        <div class="overlay-image" style="background-image: url('assets/Hannibal100.jpg');"></div>
+        <div
+          class="overlay-image"
+          style="background-image: url('assets/Hannibal100.jpg')"
+        ></div>
         <div class="player" id="player4">
           <div class="info">
             <span class="marker" id="marker-player4"></span>
@@ -104,9 +115,12 @@
           <div class="cards"></div>
         </div>
       </div>
-  
+
       <div id="player5-container" class="player-container">
-        <div class="overlay-image" style="background-image: url('assets/Lucifer100.jpg');"></div>
+        <div
+          class="overlay-image"
+          style="background-image: url('assets/Lucifer100.jpg')"
+        ></div>
         <div class="player" id="player5">
           <div class="info">
             <span class="marker" id="marker-player5"></span>
@@ -118,9 +132,12 @@
           <div class="cards"></div>
         </div>
       </div>
-  
+
       <div id="player6-container" class="player-container">
-        <div class="overlay-image" style="background-image: url('assets/sauron100.jpg');"></div>
+        <div
+          class="overlay-image"
+          style="background-image: url('assets/sauron100.jpg')"
+        ></div>
         <div class="player" id="player6">
           <div class="info">
             <span class="marker" id="marker-player6"></span>
@@ -147,15 +164,11 @@
           <div class="slider-wrapper">
             <input type="range" id="bet-slider" step="1" value="0" />
             <span id="bet-value"></span>
+            <button id="decrease-slider" class="triangle-button">▼</button>
+            <button id="increase-slider" class="triangle-button">▲</button>
+            
           </div>
-        </div>
-        <input
-          type="number"
-          id="raise-amount"
-          placeholder="Raise Amount"
-          min="0"
-        />
-      </div>
+        
     </div>
 
     <script type="module" src="script.js"></script>
