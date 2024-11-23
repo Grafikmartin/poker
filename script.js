@@ -248,96 +248,54 @@ function initializeBetSlider() {
   });
 }
 const audioFiles = {
-    fold: new Audio("sounds/fold.mp3"),
-    check: new Audio("sounds/check.mp3"),
-    call: new Audio("sounds/call.mp3"),
-    raise: new Audio("sounds/raise.mp3"),
-    allin: new Audio("sounds/allin.mp3"),
-    dealCards: new Audio("sounds/deal-cards.mp3"),
+  fold: new Audio("sounds/fold.mp3"),
+  check: new Audio("sounds/check.mp3"),
+  call: new Audio("sounds/call.mp3"),
+  raise: new Audio("sounds/raise.mp3"),
+  allin: new Audio("sounds/allin.mp3"),
+  dealCards: new Audio("sounds/deal-cards.mp3"),
 };
 
+// Spieleraktionen mit Sounds
+let soundPlaying = false;
 
-function playSound(action) {
-    console.log(`playSound wurde mit Aktion: ${action} aufgerufen`);
-    const sound = audioFiles[action];
-    if (sound) {
-        sound.currentTime = 0; // Startet die Datei von vorne
-        sound.play().catch(error => console.error(`Fehler beim Abspielen des Sounds für ${action}:`, error));
-    }
-}
-
-
-// Spieleraktionen
-function fold() {
-    players[currentPlayerIndex].active = false;
-    console.log(`${players[currentPlayerIndex].name} hat gepasst.`);
-    foldAnimation(players[currentPlayerIndex].id);
-    playSound("fold");
-    updateUI();
-    nextPlayer();
+function playSoundOnce(audioFile) {
+  if (!soundPlaying) {
+    soundPlaying = true;
+    audioFile.play().then(() => {
+      soundPlaying = false;
+    });
+  }
 }
 function check() {
-    console.log(`${players[currentPlayerIndex].name} hat gecheckt.`);
-    playSound("check"); // Check-Sound abspielen
-    nextPlayer();
+  console.log("check() Funktion aufgerufen");
+  playSoundOnce(audioFiles.check); // Verhindert doppeltes Abspielen
+  console.log(`${players[currentPlayerIndex].name} hat gecheckt.`);
+  nextPlayer();
 }
 
 function call() {
-    const player = players[currentPlayerIndex];
-    const callAmount = currentBet - player.bet;
-    if (player.chips >= callAmount) {
-        player.chips -= callAmount;
-        player.bet += callAmount;
-        pot += callAmount;
-        console.log(`${player.name} hat ${callAmount} gecallt.`);
-        playSound("call"); // Call-Sound abspielen
-        updateUI();
-        nextPlayer();
-    } else {
-        console.error(`${player.name} hat nicht genug Chips zum Callen.`);
-    }
+  console.log("call() Funktion aufgerufen");
+  playSoundOnce(audioFiles.call); // Verhindert doppeltes Abspielen
+  console.log(`${players[currentPlayerIndex].name} hat gecallt.`);
+  nextPlayer();
 }
 
-// Raise-Aktion mit Sound
+function fold() {
+  console.log("fold() Funktion aufgerufen");
+  playSoundOnce(audioFiles.fold); // Verhindert doppeltes Abspielen
+  console.log(`${players[currentPlayerIndex].name} hat gefoldet.`);
+  players[currentPlayerIndex].active = false; // Spieler deaktivieren
+  foldAnimation(players[currentPlayerIndex].id); // Kartenanimation
+  nextPlayer();
+}
+
 function raise(amount) {
-    const player = players[currentPlayerIndex];
-    if (player.chips >= amount) {
-        player.chips -= amount;
-        player.bet += amount;
-        currentBet = Math.max(currentBet, player.bet);
-        pot += amount;
-
-        if (player.chips === 0) {
-            console.log(`${player.name} ist All-In!`);
-            playSound("allin"); // All-In-Sound abspielen
-        } else {
-            console.log(`${player.name} hat um ${amount} erhöht.`);
-            console.log("playSound für raise aufgerufen."); // Debugging
-            playSound("raise"); // Raise-Sound abspielen
-        }
-
-        updateUI();
-        nextPlayer();
-    } else {
-        console.error(`${player.name} hat nicht genug Chips für ein Raise.`);
-    }
+  console.log(`raise() Funktion aufgerufen mit Betrag: ${amount}`);
+  playSoundOnce(audioFiles.raise); // Verhindert doppeltes Abspielen
+  console.log(`${players[currentPlayerIndex].name} erhöht um ${amount} Chips.`);
+  nextPlayer();
 }
-document.getElementById("check-button").addEventListener("click", () => {
-    console.log("Check-Button gedrückt");
-    playSound("check");
-});
-document.getElementById("call-button").addEventListener("click", () => {
-    console.log("Call-Button gedrückt");
-    playSound("call");
-});
-document.getElementById("fold-button").addEventListener("click", () => {
-    console.log("Fold-Button gedrückt");
-    playSound("fold");
-});
-document.getElementById("raise-button").addEventListener("click", () => {
-    console.log("Raise-Button gedrückt");
-    playSound("raise");
-});
 
 // Karten ablegen (Fold-Animation)
 function foldAnimation(playerId) {
@@ -368,11 +326,26 @@ function nextPlayer() {
   if (currentPlayerIndex !== 0) {
     console.log(`KI-Spieler ${currentPlayer.name} trifft eine Entscheidung.`);
     const decision = makeDecision(currentPlayer, currentBet, pot);
+
+    // Überprüfen, ob die richtige Aktion aufgerufen wird
+    console.log(`KI-Entscheidung: ${decision}`);
     executeDecision(currentPlayer, decision, {
-      check: check,
-      call: call,
-      raise: (amount) => raise(amount),
-      fold: fold,
+      check: () => {
+        console.log("KI führt Check aus");
+        check();
+      },
+      call: () => {
+        console.log("KI führt Call aus");
+        call();
+      },
+      raise: (amount) => {
+        console.log(`KI führt Raise um ${amount} aus`);
+        raise(amount);
+      },
+      fold: () => {
+        console.log("KI führt Fold aus");
+        fold();
+      },
     });
   } else {
     console.log(`Dein Zug, ${currentPlayer.name}`);
@@ -408,6 +381,7 @@ function updateUI() {
 }
 
 // Event-Listener
+
 document.getElementById("deal-cards").addEventListener("click", () => {
   const deck = shuffleDeck(createDeck());
   assignMarkers();
@@ -415,10 +389,39 @@ document.getElementById("deal-cards").addEventListener("click", () => {
   updateUI();
 });
 
-document.getElementById("check-button").addEventListener("click", check);
-document.getElementById("call-button").addEventListener("click", call);
-document.getElementById("raise-button").addEventListener("click", () => {
-  const sliderValue = document.getElementById("raise-amount").value;
-  raise(parseInt(sliderValue, 10));
+document.getElementById("fold-button").addEventListener("click", () => {
+  fold(); // Ruft die fold-Funktion auf, die den Sound abspielt
 });
-document.getElementById("fold-button").addEventListener("click", fold);
+
+
+document.getElementById("check-button").addEventListener("click", () => {
+  check(); // Ruft die check-Funktion auf, die den Sound abspielt
+});
+
+document.getElementById("call-button").addEventListener("click", () => {
+  call(); // Ruft die call-Funktion auf, die den Sound abspielt
+});
+
+document.getElementById("raise-button").addEventListener("click", () => {
+  const betValueElement = document.getElementById("bet-value");
+
+  // Sicherheitsüberprüfung: Gibt es das Element?
+  if (!betValueElement) {
+    console.error("Das Element mit der ID 'bet-value' wurde nicht gefunden.");
+    return;
+  }
+
+  // Wert aus dem Span extrahieren
+  const raiseAmount = parseInt(betValueElement.textContent, 10) || 0; // Standardwert 0 bei Fehler
+  console.log(`Raise-Button geklickt. Betrag: ${raiseAmount}`);
+
+  raise(raiseAmount); // Ruft die raise-Funktion mit dem Betrag auf
+});
+
+
+betSlider.addEventListener("input", (event) => {
+  const betValueElement = document.getElementById("bet-value");
+  if (betValueElement) {
+    betValueElement.textContent = event.target.value; // Aktualisiert den Span-Wert
+  }
+});
