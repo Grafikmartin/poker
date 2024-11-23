@@ -2,7 +2,6 @@
 body {
   font-family: Arial, sans-serif;
   background-image: url(./assets/friedhof.jpg);
-
   color: white;
   display: flex;
   flex-direction: column;
@@ -90,7 +89,7 @@ body {
   background-position: center; /* Bild zentrieren */
   background-repeat: no-repeat; /* Kein Wiederholen des Bildes */
   z-index: 1000; /* Über alles andere */
-  animation: fadeOut 10s ease-in-out forwards; /* Optional: Sanfte Ausblendung */
+  animation: fadeOut 5s ease-in-out forwards; /* Optional: Sanfte Ausblendung */
 }
 #intro-overlay img {
   object-fit: cover;
@@ -388,7 +387,7 @@ body {
 
 /* Positionen für die Bets */
 #player1 .bet {
-  bottom: 95%; /* Über Spieler 1 */
+  bottom: 100%; /* Über Spieler 1 */
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -409,7 +408,7 @@ body {
 }
 
 #player4 .bet {
-  top: 95%; /* Unter Spieler 4 */
+  top: 100%; /* Unter Spieler 4 */
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -476,7 +475,7 @@ button {
   border: 2px solid rgba(255, 255, 255, 0.2);
 }
 #fold-button {
-  background-color: rgba(169, 158, 0, 0.4);
+  background-color: rgba(255, 187, 0, 0.4);
 }
 #check-button {
   background-color: rgba(0, 105, 129, 0.4);
@@ -545,7 +544,7 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px; /* Abgerundete Ecken */
+  border-radius: 7px; /* Abgerundete Ecken */
   border: 1px solid rgba(255, 255, 255, 0.5);
 }
 

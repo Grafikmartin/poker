@@ -256,6 +256,18 @@ const audioFiles = {
   dealCards: new Audio("sounds/deal-cards.mp3"),
 };
 
+
+// Funktion, um die Aktivität im Feld div.bet zu aktualisieren
+function updateBetField(playerId, message) {
+  const betField = document.querySelector(`#${playerId} .bet`);
+  if (betField) {
+    betField.textContent = message; // Setzt die Nachricht in das bet-Feld
+  } else {
+    console.error(`Das bet-Feld für Spieler ${playerId} wurde nicht gefunden.`);
+  }
+}
+
+
 // Spieleraktionen mit Sounds
 let soundPlaying = false;
 
@@ -267,33 +279,46 @@ function playSoundOnce(audioFile) {
     });
   }
 }
-function check() {
-  console.log("check() Funktion aufgerufen");
-  playSoundOnce(audioFiles.check); // Verhindert doppeltes Abspielen
-  console.log(`${players[currentPlayerIndex].name} hat gecheckt.`);
-  nextPlayer();
-}
-
-function call() {
-  console.log("call() Funktion aufgerufen");
-  playSoundOnce(audioFiles.call); // Verhindert doppeltes Abspielen
-  console.log(`${players[currentPlayerIndex].name} hat gecallt.`);
-  nextPlayer();
-}
 
 function fold() {
   console.log("fold() Funktion aufgerufen");
   playSoundOnce(audioFiles.fold); // Verhindert doppeltes Abspielen
   console.log(`${players[currentPlayerIndex].name} hat gefoldet.`);
   players[currentPlayerIndex].active = false; // Spieler deaktivieren
+  updateBetField(players[currentPlayerIndex].id, "fold"); // Aktivität anzeigen
   foldAnimation(players[currentPlayerIndex].id); // Kartenanimation
+  nextPlayer();
+}
+
+function check() {
+  console.log("check() Funktion aufgerufen");
+  playSoundOnce(audioFiles.check); // Verhindert doppeltes Abspielen
+  updateBetField(players[currentPlayerIndex].id, "check"); // Aktivität anzeigen
+  console.log(`${players[currentPlayerIndex].name} hat gecheckt.`);
+  nextPlayer();
+}
+function call() {
+  console.log("call() Funktion aufgerufen");
+  playSoundOnce(audioFiles.call); // Verhindert doppeltes Abspielen
+  const callAmount = currentBet; // Annahme: currentBet enthält den Betrag
+  updateBetField(players[currentPlayerIndex].id, `call (${callAmount})`); // Aktivität anzeigen
+  console.log(`${players[currentPlayerIndex].name} hat gecallt.`);
   nextPlayer();
 }
 
 function raise(amount) {
   console.log(`raise() Funktion aufgerufen mit Betrag: ${amount}`);
   playSoundOnce(audioFiles.raise); // Verhindert doppeltes Abspielen
+  updateBetField(players[currentPlayerIndex].id, `raise (${amount})`); // Aktivität anzeigen
   console.log(`${players[currentPlayerIndex].name} erhöht um ${amount} Chips.`);
+  nextPlayer();
+}
+function allin() {
+  const allInAmount = players[currentPlayerIndex].chips; // Gesamtes Guthaben
+  console.log("allin() Funktion aufgerufen");
+  playSoundOnce(audioFiles.allin); // Sound für All-In
+  updateBetField(players[currentPlayerIndex].id, `all-in (${allInAmount})`); // Aktivität anzeigen
+  players[currentPlayerIndex].chips = 0; // Setzt Chips auf 0
   nextPlayer();
 }
 
