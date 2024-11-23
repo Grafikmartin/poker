@@ -38,6 +38,32 @@ fullscreenExit.addEventListener("click", () => {
   fullscreenEnter.style.display = "block";
   fullscreenExit.style.display = "none";
 });
+document.getElementById("mute-button").addEventListener("click", () => {
+  const isMuted = document.querySelector("audio, video");
+  if (isMuted) {
+    isMuted.muted = !isMuted.muted;
+    console.log(isMuted.muted ? "Ton ist ausgestellt" : "Ton ist an");
+  }
+});
+
+document.getElementById("music-button").addEventListener("click", () => {
+  const music = document.getElementById("background-music");
+  if (music) {
+    if (music.paused) {
+      music.play();
+      console.log("Musik gestartet");
+    } else {
+      music.pause();
+      console.log("Musik pausiert");
+    }
+  } else {
+    console.log("Hintergrundmusik nicht gefunden");
+  }
+});
+
+document.getElementById("settings-button").addEventListener("click", () => {
+  alert("Einstellungen öffnen");
+});
 
 const players = [
   { id: "player1", name: "You", chips: 2500, bet: 0, active: true },
@@ -256,18 +282,6 @@ const audioFiles = {
   dealCards: new Audio("sounds/deal-cards.mp3"),
 };
 
-
-// Funktion, um die Aktivität im Feld div.bet zu aktualisieren
-function updateBetField(playerId, message) {
-  const betField = document.querySelector(`#${playerId} .bet`);
-  if (betField) {
-    betField.textContent = message; // Setzt die Nachricht in das bet-Feld
-  } else {
-    console.error(`Das bet-Feld für Spieler ${playerId} wurde nicht gefunden.`);
-  }
-}
-
-
 // Spieleraktionen mit Sounds
 let soundPlaying = false;
 
@@ -279,46 +293,33 @@ function playSoundOnce(audioFile) {
     });
   }
 }
+function check() {
+  console.log("check() Funktion aufgerufen");
+  playSoundOnce(audioFiles.check); // Verhindert doppeltes Abspielen
+  console.log(`${players[currentPlayerIndex].name} hat gecheckt.`);
+  nextPlayer();
+}
+
+function call() {
+  console.log("call() Funktion aufgerufen");
+  playSoundOnce(audioFiles.call); // Verhindert doppeltes Abspielen
+  console.log(`${players[currentPlayerIndex].name} hat gecallt.`);
+  nextPlayer();
+}
 
 function fold() {
   console.log("fold() Funktion aufgerufen");
   playSoundOnce(audioFiles.fold); // Verhindert doppeltes Abspielen
   console.log(`${players[currentPlayerIndex].name} hat gefoldet.`);
   players[currentPlayerIndex].active = false; // Spieler deaktivieren
-  updateBetField(players[currentPlayerIndex].id, "fold"); // Aktivität anzeigen
   foldAnimation(players[currentPlayerIndex].id); // Kartenanimation
-  nextPlayer();
-}
-
-function check() {
-  console.log("check() Funktion aufgerufen");
-  playSoundOnce(audioFiles.check); // Verhindert doppeltes Abspielen
-  updateBetField(players[currentPlayerIndex].id, "check"); // Aktivität anzeigen
-  console.log(`${players[currentPlayerIndex].name} hat gecheckt.`);
-  nextPlayer();
-}
-function call() {
-  console.log("call() Funktion aufgerufen");
-  playSoundOnce(audioFiles.call); // Verhindert doppeltes Abspielen
-  const callAmount = currentBet; // Annahme: currentBet enthält den Betrag
-  updateBetField(players[currentPlayerIndex].id, `call (${callAmount})`); // Aktivität anzeigen
-  console.log(`${players[currentPlayerIndex].name} hat gecallt.`);
   nextPlayer();
 }
 
 function raise(amount) {
   console.log(`raise() Funktion aufgerufen mit Betrag: ${amount}`);
   playSoundOnce(audioFiles.raise); // Verhindert doppeltes Abspielen
-  updateBetField(players[currentPlayerIndex].id, `raise (${amount})`); // Aktivität anzeigen
   console.log(`${players[currentPlayerIndex].name} erhöht um ${amount} Chips.`);
-  nextPlayer();
-}
-function allin() {
-  const allInAmount = players[currentPlayerIndex].chips; // Gesamtes Guthaben
-  console.log("allin() Funktion aufgerufen");
-  playSoundOnce(audioFiles.allin); // Sound für All-In
-  updateBetField(players[currentPlayerIndex].id, `all-in (${allInAmount})`); // Aktivität anzeigen
-  players[currentPlayerIndex].chips = 0; // Setzt Chips auf 0
   nextPlayer();
 }
 
@@ -338,44 +339,63 @@ function foldAnimation(playerId) {
 
 // Zum nächsten Spieler wechseln
 function nextPlayer() {
-  // Finde den nächsten aktiven Spieler
+  // Entferne den Rand von allen Spielern
+  players.forEach((player) => {
+    const playerElement = document.getElementById(player.id);
+    if (playerElement) {
+      playerElement.classList.remove("highlight");
+    }
+  });
+
+  // Setze den aktuellen Spieler
   do {
     currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
   } while (!players[currentPlayerIndex].active);
 
   const currentPlayer = players[currentPlayerIndex];
+  const currentPlayerElement = document.getElementById(currentPlayer.id);
+
+  // Markiere den aktuellen Spieler
+  if (currentPlayerElement) {
+    currentPlayerElement.classList.add("highlight");
+  }
+
   console.log(`Spieler ${currentPlayer.name} ist dran.`);
 
-  highlightCurrentPlayer(); // Aktualisiere den Rand für den aktuellen Spieler
-
+  // KI-Spieler handeln lassen
   if (currentPlayerIndex !== 0) {
     console.log(`KI-Spieler ${currentPlayer.name} trifft eine Entscheidung.`);
-    const decision = makeDecision(currentPlayer, currentBet, pot);
 
-    // Überprüfen, ob die richtige Aktion aufgerufen wird
-    console.log(`KI-Entscheidung: ${decision}`);
-    executeDecision(currentPlayer, decision, {
-      check: () => {
-        console.log("KI führt Check aus");
-        check();
-      },
-      call: () => {
-        console.log("KI führt Call aus");
-        call();
-      },
-      raise: (amount) => {
-        console.log(`KI führt Raise um ${amount} aus`);
-        raise(amount);
-      },
-      fold: () => {
-        console.log("KI führt Fold aus");
-        fold();
-      },
-    });
+    // Verzögere die Entscheidung der KI
+    setTimeout(() => {
+      const decision = makeDecision(currentPlayer, currentBet, pot);
+
+      // Überprüfen, ob die richtige Aktion aufgerufen wird
+      console.log(`KI-Entscheidung: ${decision}`);
+      executeDecision(currentPlayer, decision, {
+        check: () => {
+          console.log("KI führt Check aus");
+          check();
+        },
+        call: () => {
+          console.log("KI führt Call aus");
+          call();
+        },
+        raise: (amount) => {
+          console.log(`KI führt Raise um ${amount} aus`);
+          raise(amount);
+        },
+        fold: () => {
+          console.log("KI führt Fold aus");
+          fold();
+        },
+      });
+    }, 2000); // 2 Sekunden Verzögerung
   } else {
     console.log(`Dein Zug, ${currentPlayer.name}`);
   }
 }
+
 
 function highlightCurrentPlayer() {
   // Entferne den Rand von allen Spielern
@@ -444,9 +464,3 @@ document.getElementById("raise-button").addEventListener("click", () => {
 });
 
 
-betSlider.addEventListener("input", (event) => {
-  const betValueElement = document.getElementById("bet-value");
-  if (betValueElement) {
-    betValueElement.textContent = event.target.value; // Aktualisiert den Span-Wert
-  }
-});

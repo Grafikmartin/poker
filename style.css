@@ -41,7 +41,8 @@ body {
 
 #reload-controls .material-icons {
   font-size: 3vw;
-  color: white;
+  color: rgba(255, 255, 255, 0.5);
+
 }
 
 /* Vollbildsteuerung */
@@ -54,7 +55,37 @@ body {
 }
 
 #fullscreen-controls button {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 8px;
+  padding: 1vh;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  
+}
+
+#fullscreen-controls button:hover {
+  background-color: rgba(13, 136, 68, 0.8);
+}
+
+#fullscreen-controls .material-icons {
+  font-size: 3vw;
+  color: rgba(255, 255, 255, 0.5);
+}
+#additional-controls {
+  position: absolute;
+  top: 10vh; /* Abstand unter den Vollbild-Buttons */
+  right: 2vh;
+  display: flex;
+  flex-direction: column; /* Buttons übereinander anordnen */
+  gap: 2vh; /* Abstand zwischen den Buttons */
+}
+
+#additional-controls button {
+  background-color: rgba(0, 0, 0, 0.1);
   border: none;
   border-radius: 8px;
   padding: 1vh;
@@ -65,13 +96,13 @@ body {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-#fullscreen-controls button:hover {
+#additional-controls button:hover {
   background-color: rgba(13, 136, 68, 0.8);
 }
 
-#fullscreen-controls .material-icons {
+#additional-controls .material-icons {
   font-size: 3vw;
-  color: white;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 #intro-overlay {
@@ -83,7 +114,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.8); /* Optional: Ein dunkler Hintergrund */
+  background-color: rgba(0, 0, 0, 0.); /* Optional: Ein dunkler Hintergrund */
   background-image: url("assets/your-background.jpg"); /* Setzt das gewünschte Bild */
   background-size: cover; /* Bild füllt den gesamten Bereich */
   background-position: center; /* Bild zentrieren */
