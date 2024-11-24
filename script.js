@@ -1,7 +1,19 @@
 import { makeDecision, executeDecision } from "./ai.js";
+const audioFiles = {
+  fold: new Audio("sounds/fold.mp3"),
+  check: new Audio("sounds/check.mp3"),
+  call: new Audio("sounds/call.mp3"),
+  raise: new Audio("sounds/raise.mp3"),
+  allin: new Audio("sounds/allin.mp3"),
+  dealCards: new Audio("sounds/deal-cards.mp3"),
+  intro: new Audio("sounds/intro.mp3"),
+};
 
+// Spieleraktionen mit Sounds
+let soundPlaying = false;
 const fullscreenEnter = document.getElementById("fullscreen-enter");
 const fullscreenExit = document.getElementById("fullscreen-exit");
+let soundMuted = false; // Steuert, ob Sounds abgespielt werden
 
 // intro
 document.addEventListener("DOMContentLoaded", () => {
@@ -26,40 +38,38 @@ fullscreenEnter.addEventListener("click", () => {
   fullscreenExit.style.display = "block";
 });
 
-// Vollbild deaktivieren
-fullscreenExit.addEventListener("click", () => {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
-  } else if (document.msExitFullscreen) {
-    document.msExitFullscreen();
-  }
-  fullscreenEnter.style.display = "block";
-  fullscreenExit.style.display = "none";
-});
+
 document.getElementById("mute-button").addEventListener("click", () => {
-  const isMuted = document.querySelector("audio, video");
-  if (isMuted) {
-    isMuted.muted = !isMuted.muted;
-    console.log(isMuted.muted ? "Ton ist ausgestellt" : "Ton ist an");
-  }
+  const muteButtonIcon = document.querySelector("#mute-button .material-icons");
+  soundMuted = !soundMuted; // Umschalten des Mute-Zustands
+  muteButtonIcon.textContent = soundMuted ? "volume_off" : "volume_up";
+
+  // Optional: Mute alle aktiven Audio-Elemente direkt
+  Object.values(audioFiles).forEach((audio) => {
+    audio.muted = soundMuted;
+  });
+
+  console.log(soundMuted ? "Ton ist ausgestellt" : "Ton ist an");
 });
 
 document.getElementById("music-button").addEventListener("click", () => {
+  const musicButtonIcon = document.querySelector("#music-button .material-icons");
   const music = document.getElementById("background-music");
   if (music) {
     if (music.paused) {
       music.play();
+      musicButtonIcon.textContent = "music_note";
       console.log("Musik gestartet");
     } else {
       music.pause();
+      musicButtonIcon.textContent = "music_off";
       console.log("Musik pausiert");
     }
   } else {
     console.log("Hintergrundmusik nicht gefunden");
   }
 });
+
 
 document.getElementById("settings-button").addEventListener("click", () => {
   alert("Einstellungen öffnen");
@@ -273,17 +283,7 @@ function initializeBetSlider() {
     }
   });
 }
-const audioFiles = {
-  fold: new Audio("sounds/fold.mp3"),
-  check: new Audio("sounds/check.mp3"),
-  call: new Audio("sounds/call.mp3"),
-  raise: new Audio("sounds/raise.mp3"),
-  allin: new Audio("sounds/allin.mp3"),
-  dealCards: new Audio("sounds/deal-cards.mp3"),
-};
 
-// Spieleraktionen mit Sounds
-let soundPlaying = false;
 
 function playSoundOnce(audioFile) {
   if (!soundPlaying) {

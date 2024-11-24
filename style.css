@@ -27,7 +27,7 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
   border: none;
   border-radius: 8px;
-  padding: 1vh;
+  padding: 0.5vh;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -40,7 +40,7 @@ body {
 }
 
 #reload-controls .material-icons {
-  font-size: 3vw;
+  font-size: 3vh;
   color: rgba(255, 255, 255, 0.5);
 
 }
@@ -72,7 +72,7 @@ body {
 }
 
 #fullscreen-controls .material-icons {
-  font-size: 3vw;
+  font-size: 3.5vh;
   color: rgba(255, 255, 255, 0.5);
 }
 #additional-controls {
@@ -101,7 +101,7 @@ body {
 }
 
 #additional-controls .material-icons {
-  font-size: 3vw;
+  font-size: 3vh;
   color: rgba(255, 255, 255, 0.5);
 }
 
