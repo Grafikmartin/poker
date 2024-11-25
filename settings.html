@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div id="settings-container">
+    <h1>Game Settings</h1>
+
+    <!-- Spielgeschwindigkeit -->
+    <div class="setting">
+      <label for="speed-slider">Game Speed</label>
+      <input type="range" id="speed-slider" min="1" max="3" step="1" value="2">
+      <div class="slider-labels">
+        <span>Slow</span>
+        <span>Normal</span>
+        <span>Fast</span>
+      </div>
+    </div>
+
+    <!-- Musiklautstärke -->
+    <div class="setting">
+      <label for="music-volume">Music Volume</label>
+      <input type="range" id="music-volume" min="0" max="100" step="1" value="100">
+    </div>
+
+    <!-- Soundlautstärke -->
+    <div class="setting">
+      <label for="sound-volume">Sound Volume</label>
+      <input type="range" id="sound-volume" min="0" max="100" step="1" value="100">
+    </div>
+
+    <!-- Zurück-Button -->
+    <div id="buttons">
+      <button id="back-button" onclick="goBack()">Back to Game</button>
+    </div>
+  </div>
+
+  <script>
+    function goBack() {
+      window.location.href = 'index.html'; // Zurück zur Hauptseite
+    }
+
+    // Einstellungen können hier gespeichert oder live angepasst werden.
+    const speedSlider = document.getElementById('speed-slider');
+    const musicVolume = document.getElementById('music-volume');
+    const soundVolume = document.getElementById('sound-volume');
+
+    speedSlider.addEventListener('change', (e) => {
+      console.log('Game Speed:', e.target.value); // Werte: 1, 2, 3
+    });
+
+    musicVolume.addEventListener('input', (e) => {
+      console.log('Music Volume:', e.target.value); // Werte: 0-100
+    });
+
+    soundVolume.addEventListener('input', (e) => {
+      console.log('Sound Volume:', e.target.value); // Werte: 0-100
+    });
+  </script>
+</body>
+</html>
