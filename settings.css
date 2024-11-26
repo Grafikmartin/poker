@@ -1,84 +1,87 @@
 /* Hintergrund */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-image: url('assets/orchester.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: white;
-  }
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-image: url("assets/orchester.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
+}
+
+/* Container für die Einstellungen */
+#settings-container {
+  background: rgba(0, 0, 0, 0.6); /* Schwarzer, transparenter Hintergrund */
+  padding: 2vh;
+  border-radius: 1vh;
+  width: 40%;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Überschrift */
+#settings-container h1 {
+  font-size: 3vh;
+  margin-bottom: 1.5vh;
+}
+
+/* Einzelne Einstellungen */
+.setting {
+  margin: 20px 0;
+}
+
+/* Label für Einstellungen */
+.setting label {
+  font-size: 2vh;
+  display: block;
+  margin-bottom: 1vh;
+}
+
+/* Slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 80%;
+  height: 1vh;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+  outline: none;
+  margin-bottom: 1vh;
   
-  /* Container für die Einstellungen */
-  #settings-container {
-    background: rgba(0, 0, 0, 0.6); /* Schwarzer, transparenter Hintergrund */
-    padding: 20px;
-    border-radius: 10px;
-    width: 40%;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  }
-  
-  /* Überschrift */
-  #settings-container h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
-  }
-  
-  /* Einzelne Einstellungen */
-  .setting {
-    margin: 20px 0;
-  }
-  
-  /* Label für Einstellungen */
-  .setting label {
-    font-size: 1.2em;
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  /* Slider */
-  input[type="range"] {
-    -webkit-appearance: none;
-    width: 80%;
-    height: 10px;
-    border-radius: 5px;
-    background: linear-gradient(to right, #4caf50, #81c784);
-    outline: none;
-    margin-bottom: 10px;
-  }
-  
-  /* Slider-Labels */
-  .slider-labels {
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-    margin: 0 auto;
-    font-size: 0.9em;
-  }
-  
-  /* Zurück-Button */
-  #buttons {
-    margin-top: 20px;
-  }
-  
-  #back-button {
-    padding: 10px 20px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  #back-button:hover {
-    background-color: #388e3c;
-  }
-  
+}
+
+/* Slider-Labels */
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 auto;
+  font-size: 0.9em;
+}
+
+/* Zurück-Button */
+#buttons {
+  margin-top: 20px;
+}
+
+#back-button {
+  padding: 1.6vh 2.5vh;
+  background-color: rgba(13, 136, 68, 0.5);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 2vh;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+#back-button:hover {
+  background-color: #388e3c;
+}

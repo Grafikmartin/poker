@@ -252,7 +252,7 @@ body {
   margin-bottom: 0.5vw;
   text-align: center;
   font-size: 1.3vh;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 #player1 {
@@ -504,6 +504,7 @@ button {
   cursor: pointer;
   font-size: 2vh;
   border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: background-color 0.3s ease;
 }
 #fold-button {
   background-color: rgba(255, 187, 0, 0.4);
@@ -545,14 +546,16 @@ button:hover {
   display: flex;
   align-items: center; /* Horizontale Ausrichtung */
   gap: 0.5vw; /* Abstand zwischen Slider und Wert */
+  
 }
 
 #bet-slider {
   width: 20vw; /* Breite des Sliders */
+  
 }
 
 #bet-value {
-  font-size: 1.6vw;
+  font-size: 2vh;
   font-weight: bold;
   color: #ffffff; /* Goldene Farbe */
 }
@@ -580,7 +583,7 @@ button:hover {
 }
 
 .triangle-button:hover {
-  background-color: rgba(13, 136, 68, 1); /* Hellgrün beim Hover */
+  background-color: rgba(13, 136, 68, 1);
 }
 
 /* Styling für größere Pfeile im Input */
