@@ -72,8 +72,9 @@ document.getElementById("music-button").addEventListener("click", () => {
 
 
 document.getElementById("settings-button").addEventListener("click", () => {
-  alert("Einstellungen öffnen");
+  window.location.href = "settings.html"; // Navigiert direkt zur Seite
 });
+
 
 const players = [
   { id: "player1", name: "You", chips: 2500, bet: 0, active: true },
