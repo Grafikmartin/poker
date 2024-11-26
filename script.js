@@ -71,8 +71,10 @@ document.getElementById("music-button").addEventListener("click", () => {
 });
 
 
+// Modal öffnen
 document.getElementById("settings-button").addEventListener("click", () => {
-  window.location.href = "settings.html"; // Navigiert direkt zur Seite
+  const settingsModal = document.getElementById('settings-modal');
+  settingsModal.style.display = 'flex'; // Zeigt das Modal an
 });
 
 
@@ -464,4 +466,90 @@ document.getElementById("raise-button").addEventListener("click", () => {
   raise(raiseAmount); // Ruft die raise-Funktion mit dem Betrag auf
 });
 
+// Modal-Elemente
+const settingsModal = document.getElementById('settings-modal');
+const settingsButton = document.getElementById('settings-button');
+const closeSettingsButton = document.getElementById('close-settings');
 
+// Öffnen des Modals
+settingsButton.addEventListener('click', () => {
+  settingsModal.style.display = 'flex';
+});
+
+// Schließen des Modals
+closeSettingsButton.addEventListener('click', () => {
+  settingsModal.style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', (event) => {
+  if (event.target === settingsModal) {
+    settingsModal.style.display = 'none';
+  }
+});
+
+// Initialisierung der Einstellungen
+document.addEventListener("DOMContentLoaded", () => {
+  const speedSlider = document.getElementById("speed-slider");
+  const musicVolumeSlider = document.getElementById("music-volume");
+  const soundVolumeSlider = document.getElementById("sound-volume");
+  const backgroundMusic = document.getElementById("background-music");
+
+  // Voreinstellungen setzen
+  speedSlider.value = 2; // Standardwert für Spielgeschwindigkeit
+  musicVolumeSlider.value = 100; // Standardwert für Musiklautstärke
+  soundVolumeSlider.value = 100; // Standardwert für Soundlautstärke
+
+  // Event-Listener für die Slider
+  speedSlider.addEventListener("input", (event) => {
+    const speedValue = parseInt(event.target.value, 10);
+    console.log(`Game Speed geändert: ${speedValue}`);
+    // TODO: Game-Speed-Funktionalität einbinden, z. B. game.setSpeed(speedValue);
+  });
+
+  musicVolumeSlider.addEventListener("input", (event) => {
+    const volume = event.target.value / 100; // Lautstärke skalieren (0 bis 1)
+    backgroundMusic.volume = volume; // Lautstärke der Hintergrundmusik
+    console.log(`Musiklautstärke geändert: ${volume}`);
+  });
+
+  soundVolumeSlider.addEventListener("input", (event) => {
+    const volume = event.target.value / 100; // Lautstärke skalieren (0 bis 1)
+    Object.values(audioFiles).forEach((audio) => {
+      audio.volume = volume; // Lautstärke der Sounds
+    });
+    console.log(`Soundlautstärke geändert: ${volume}`);
+  });
+});
+function saveSettings() {
+  const settings = {
+    gameSpeed: document.getElementById("speed-slider").value,
+    musicVolume: document.getElementById("music-volume").value,
+    soundVolume: document.getElementById("sound-volume").value,
+  };
+  localStorage.setItem("gameSettings", JSON.stringify(settings));
+  console.log("Einstellungen gespeichert:", settings);
+}
+function loadSettings() {
+  const savedSettings = JSON.parse(localStorage.getItem("gameSettings"));
+  if (savedSettings) {
+    document.getElementById("speed-slider").value = savedSettings.gameSpeed;
+    document.getElementById("music-volume").value = savedSettings.musicVolume;
+    document.getElementById("sound-volume").value = savedSettings.soundVolume;
+
+    // Anwenden der gespeicherten Einstellungen
+    document.getElementById("background-music").volume =
+      savedSettings.musicVolume / 100;
+    Object.values(audioFiles).forEach((audio) => {
+      audio.volume = savedSettings.soundVolume / 100;
+    });
+
+    console.log("Einstellungen geladen:", savedSettings);
+  }
+}
+
+// Einstellungen beim Laden der Seite laden
+document.addEventListener("DOMContentLoaded", loadSettings);
+speedSlider.addEventListener("input", saveSettings);
+musicVolumeSlider.addEventListener("input", saveSettings);
+soundVolumeSlider.addEventListener("input", saveSettings);

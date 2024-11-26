@@ -42,7 +42,6 @@ body {
 #reload-controls .material-icons {
   font-size: 3vh;
   color: rgba(255, 255, 255, 0.5);
-
 }
 
 /* Vollbildsteuerung */
@@ -64,7 +63,6 @@ body {
   align-items: center;
   justify-content: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  
 }
 
 #fullscreen-controls button:hover {
@@ -114,7 +112,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.); /* Optional: Ein dunkler Hintergrund */
+  background-color: rgba(0, 0, 0, 0); /* Optional: Ein dunkler Hintergrund */
   background-image: url("assets/your-background.jpg"); /* Setzt das gewünschte Bild */
   background-size: cover; /* Bild füllt den gesamten Bereich */
   background-position: center; /* Bild zentrieren */
@@ -546,12 +544,10 @@ button:hover {
   display: flex;
   align-items: center; /* Horizontale Ausrichtung */
   gap: 0.5vw; /* Abstand zwischen Slider und Wert */
-  
 }
 
 #bet-slider {
   width: 20vw; /* Breite des Sliders */
-  
 }
 
 #bet-value {
@@ -597,4 +593,61 @@ button:hover {
 #button-controls {
   display: flex;
   gap: 1vw; /* Abstand zwischen den Buttons */
+}
+
+/* Modal-Hintergrund */
+/* Modal-Inhalt */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal-content {
+  display: flex;
+  background-image: url(./assets/orchester.jpg);
+  background-size: cover;
+  padding: 12vh;
+  border-radius: 10px;
+  width: 60vw;
+max-height: 50vh;
+  max-width: 60vw;
+  height: auto; /* Automatische Höhe, basierend auf dem Inhalt */
+  text-align: center; /* Textausrichtung links für Labels */
+  position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column; /* Anordnung der Kinder untereinander */
+  gap: 2vh; /* Abstand zwischen den Einstellungen */
+}
+
+/* Label und Input zusammen */
+.setting {
+  display: flex;
+  flex-direction: column; /* Anordnung untereinander */
+  align-items: center; /* Linksbündig ausrichten */
+  gap: 0.5vh; /* Abstand zwischen Label und Slider */
+  width: 100%; /* Volle Breite im Modal */
+}
+
+/* Slider-Labels */
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%; /* Volle Breite passend zur Einstellung */
+  font-size: 2vh;
+}
+/* Schließen-Button */
+.close-button {
+  position: absolute;
+  top: 1vh;
+  right: 1vh;
+  font-size: 4vh;
+  cursor: pointer;
 }

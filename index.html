@@ -8,6 +8,9 @@
     <link rel="icon" href="assets/favicon.png" type="image/png">
   </head>
   <body>
+  
+  
+  
     <audio id="background-music" loop>
       <source src="./sounds/intro.mp3" type="audio/mpeg" />
       Your browser does not support the audio element.
@@ -38,11 +41,45 @@
       <button id="music-button">
         <span class="material-icons">music_note</span>
       </button>
-      <button id="settings-button" onclick="location.href='settings.html'">
+      <button id="settings-button">
         <span class="material-icons">settings</span>
       </button>
     </div>
     
+    
+    
+    <!-- Modal für die Einstellungen -->
+    <div id="settings-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close-button" id="close-settings">&times;</span>
+        <h1>Game Settings</h1>
+        
+        <!-- Spielgeschwindigkeit -->
+        <div class="setting">
+          <label for="speed-slider">Game Speed</label>
+          <input type="range" id="speed-slider" min="1" max="3" step="1" value="2">
+          <div class="slider-labels">
+            <span>Slow</span>
+            <span>Normal</span>
+            <span>Fast</span>
+          </div>
+        </div>
+    
+        <!-- Musiklautstärke -->
+        <div class="setting">
+          <label for="music-volume">Music Volume</label>
+          <input type="range" id="music-volume" min="0" max="100" step="1" value="100">
+        </div>
+    
+        <!-- Soundlautstärke -->
+        <div class="setting">
+          <label for="sound-volume">Sound Volume</label>
+          <input type="range" id="sound-volume" min="0" max="100" step="1" value="100">
+        </div>
+      </div>
+    </div>
+    
+
     <!-- Google Material Icons einbinden -->
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
