@@ -14,6 +14,7 @@ let soundPlaying = false;
 const fullscreenEnter = document.getElementById("fullscreen-enter");
 const fullscreenExit = document.getElementById("fullscreen-exit");
 let soundMuted = false; // Steuert, ob Sounds abgespielt werden
+let aiSpeed = 2000; // Standardwert: 2 Sekunden (normale Geschwindigkeit)
 
 // intro
 document.addEventListener("DOMContentLoaded", () => {
@@ -37,6 +38,19 @@ fullscreenEnter.addEventListener("click", () => {
   fullscreenEnter.style.display = "none";
   fullscreenExit.style.display = "block";
 });
+
+fullscreenExit.addEventListener("click", () => {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+  }
+  fullscreenEnter.style.display = "block";
+  fullscreenExit.style.display = "none";
+});
+
 
 
 document.getElementById("mute-button").addEventListener("click", () => {
@@ -372,7 +386,7 @@ function nextPlayer() {
     // Verzögere die Entscheidung der KI
     setTimeout(() => {
       const decision = makeDecision(currentPlayer, currentBet, pot);
-
+    
       // Überprüfen, ob die richtige Aktion aufgerufen wird
       console.log(`KI-Entscheidung: ${decision}`);
       executeDecision(currentPlayer, decision, {
@@ -393,7 +407,8 @@ function nextPlayer() {
           fold();
         },
       });
-    }, 2000); // 2 Sekunden Verzögerung
+    }, aiSpeed); // Nutze die KI-Geschwindigkeit basierend auf dem Slider-Wert
+    
   } else {
     console.log(`Dein Zug, ${currentPlayer.name}`);
   }
@@ -497,15 +512,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Voreinstellungen setzen
   speedSlider.value = 2; // Standardwert für Spielgeschwindigkeit
+  aiSpeed = 2000;
   musicVolumeSlider.value = 100; // Standardwert für Musiklautstärke
   soundVolumeSlider.value = 100; // Standardwert für Soundlautstärke
 
   // Event-Listener für die Slider
   speedSlider.addEventListener("input", (event) => {
     const speedValue = parseInt(event.target.value, 10);
-    console.log(`Game Speed geändert: ${speedValue}`);
-    // TODO: Game-Speed-Funktionalität einbinden, z. B. game.setSpeed(speedValue);
+    switch (speedValue) {
+      case 3: // Schnell
+        aiSpeed = 250; // 0,25 Sekunden
+        break;
+      case 2: // Normal
+        aiSpeed = 2000; // 2 Sekunden
+        break;
+      case 1: // Langsam
+        aiSpeed = 4000; // 4 Sekunden
+        break;
+    }
+    console.log(`KI-Geschwindigkeit geändert: ${aiSpeed} ms`);
   });
+  
 
   musicVolumeSlider.addEventListener("input", (event) => {
     const volume = event.target.value / 100; // Lautstärke skalieren (0 bis 1)
