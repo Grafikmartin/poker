@@ -625,8 +625,13 @@ max-height: 50vh;
   display: flex;
   flex-direction: column; /* Anordnung der Kinder untereinander */
   gap: 2vh; /* Abstand zwischen den Einstellungen */
-}
 
+    margin-top: -10vh; /* Verschiebt die Überschrift nach oben */
+  
+}
+.modal-content h1 {
+  margin-top: -10vh; /* Verschiebt die Überschrift nach oben */
+}
 /* Label und Input zusammen */
 .setting {
   display: flex;
