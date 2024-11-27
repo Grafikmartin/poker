@@ -50,8 +50,25 @@ fullscreenExit.addEventListener("click", () => {
   fullscreenEnter.style.display = "block";
   fullscreenExit.style.display = "none";
 });
+//zoomen
+const zoomTargets = document.querySelectorAll("#poker-table, #controls"); // Selektiere die relevanten Bereiche
+let currentScale = 1; // Initialer Skalierungsfaktor
 
+document.getElementById("zoom-in").addEventListener("click", function () {
+  currentScale += 0.1; // Skaliere um 10% nach oben
+  zoomTargets.forEach((target) => {
+    target.style.transform = `scale(${currentScale})`;
+    target.style.transformOrigin = "center"; // Skalierung vom Zentrum aus
+  });
+});
 
+document.getElementById("zoom-out").addEventListener("click", function () {
+  currentScale = Math.max(currentScale - 0.1, 0.5); // Skaliere um 10% nach unten, aber min. 50%
+  zoomTargets.forEach((target) => {
+    target.style.transform = `scale(${currentScale})`;
+    target.style.transformOrigin = "center"; // Skalierung vom Zentrum aus
+  });
+});
 
 document.getElementById("mute-button").addEventListener("click", () => {
   const muteButtonIcon = document.querySelector("#mute-button .material-icons");

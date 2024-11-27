@@ -94,6 +94,36 @@ body {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
+#zoom-controls {
+  position: absolute;
+  top: 15vh; /* Unter den anderen Kontroll-Buttons */
+  right: 2vh;
+  display: flex;
+  flex-direction: column; /* Übereinander angeordnet */
+  gap: 2vh; /* Abstand zwischen den Buttons */
+}
+
+#zoom-controls button {
+  background-color: rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 8px;
+  padding: 1vh;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+#zoom-controls button:hover {
+  background-color: rgba(13, 136, 68, 0.8);
+}
+
+#zoom-controls .material-icons {
+  font-size: 3vh;
+  color: rgba(255, 255, 255, 0.5);
+}
 
 #additional-controls button:hover {
   background-color: rgba(13, 136, 68, 0.8);
@@ -484,7 +514,7 @@ body {
   gap: 2vw; /* Einheitlicher Abstand zwischen den Elementen */
   width: 100%; /* Nimmt die volle Breite des Containers */
   max-width: 85vw; /* Optionale Begrenzung der Breite */
-  margin-top: 5vh;
+  margin-top: 12vh;
   ;
 }
 #button-controls {

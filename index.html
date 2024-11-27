@@ -5,82 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Texas Hold'em</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="icon" href="assets/favicon.png" type="image/png" />
   </head>
   <body>
-  
-
     <audio id="background-music" loop>
       <source src="./sounds/intro.mp3" type="audio/mpeg" />
       Your browser does not support the audio element.
     </audio>
+
     <div id="intro-overlay">
       <img src="assets/DeadMansHand.jpg" alt="Intro" />
     </div>
+    <header id="main-header">
+      <div id="fullscreen-controls">
+        <button onclick="location.reload()">
+          <span class="material-icons">refresh</span>
+        </button>
+        <button id="fullscreen-enter">
+          <span class="material-icons">fullscreen</span>
+        </button>
+        <button id="fullscreen-exit" style="display: none">
+          <span class="material-icons">fullscreen_exit</span>
+        </button>
+      </div>
 
-    <!-- Vollbildsteuerung -->
-    <div id="reload-controls">
-      <button onclick="location.reload()">
-        <span class="material-icons">refresh</span>
-      </button>
-    </div>
+      <div id="additional-controls">
+        <button id="zoom-in">
+          <span class="material-icons">zoom_in</span>
+        </button>
+        <button id="zoom-out">
+          <span class="material-icons">zoom_out</span>
+        </button>
+        <button id="mute-button">
+          <span class="material-icons">volume_off</span>
+        </button>
+        <button id="music-button">
+          <span class="material-icons">music_note</span>
+        </button>
+        <button id="settings-button">
+          <span class="material-icons">settings</span>
+        </button>
+      </div>
 
-    <div id="fullscreen-controls">
-      <button id="fullscreen-enter">
-        <span class="material-icons">fullscreen</span>
-      </button>
-      <button id="fullscreen-exit" style="display: none">
-        <span class="material-icons">fullscreen_exit</span>
-      </button>
-    </div>
-    <div id="additional-controls">
-      <button id="mute-button">
-        <span class="material-icons">volume_off</span>
-      </button>
-      <button id="music-button">
-        <span class="material-icons">music_note</span>
-      </button>
-      <button id="settings-button">
-        <span class="material-icons">settings</span>
-      </button>
-    </div>
-    
-    
-    
-    <!-- Modal für die Einstellungen -->
-    <div id="settings-modal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <span class="close-button" id="close-settings">&times;</span>
-        <h1>Game Settings</h1>
-        
-        <!-- Spielgeschwindigkeit -->
-        <div class="setting">
-          <label for="speed-slider">Game Speed</label>
-          <input type="range" id="speed-slider" min="1" max="3" step="1" value="2">
-         
-        </div>
-    
-        <!-- Musiklautstärke -->
-        <div class="setting">
-          <label for="music-volume">Music Volume</label>
-          <input type="range" id="music-volume" min="0" max="100" step="1" value="100">
-        </div>
-    
-        <!-- Soundlautstärke -->
-        <div class="setting">
-          <label for="sound-volume">Sound Volume</label>
-          <input type="range" id="sound-volume" min="0" max="100" step="1" value="100">
+      <div id="settings-modal" class="modal" style="display: none">
+        <div class="modal-content">
+          <span class="close-button" id="close-settings">&times;</span>
+          <h1>Game Settings</h1>
+
+          <div class="setting">
+            <label for="speed-slider">Game Speed</label>
+            <input
+              type="range"
+              id="speed-slider"
+              min="1"
+              max="3"
+              step="1"
+              value="2"
+            />
+          </div>
+
+          <div class="setting">
+            <label for="music-volume">Music Volume</label>
+            <input
+              type="range"
+              id="music-volume"
+              min="0"
+              max="100"
+              step="1"
+              value="100"
+            />
+          </div>
+
+          <div class="setting">
+            <label for="sound-volume">Sound Volume</label>
+            <input
+              type="range"
+              id="sound-volume"
+              min="0"
+              max="100"
+              step="1"
+              value="100"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    
 
-    <!-- Google Material Icons einbinden -->
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    
+      <link
+        href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet"
+      />
+    </header>
+
     <div id="poker-table">
       <!-- Gemeinschaftskarten -->
       <div id="community-cards">
@@ -199,8 +214,6 @@
       </div>
     </div>
 
-<div class="info"></div>
-
     <!-- Steuerung -->
     <div id="controls">
       <div id="button-controls">
@@ -215,11 +228,11 @@
             <button id="decrease-slider" class="triangle-button">▼</button>
             <input type="range" id="bet-slider" step="1" value="0" />
             <span id="bet-value"></span>
-            
+
             <button id="increase-slider" class="triangle-button">▲</button>
-            
           </div>
-        
+        </div>
+      </div>
     </div>
 
     <script type="module" src="script.js"></script>
