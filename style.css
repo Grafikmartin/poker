@@ -171,12 +171,13 @@ body {
 
 #poker-table {
   position: relative;
-  width: 79vh;
-  height: 51vh;
+  width: 84vh;
+  height: 54vh;
   background: url("assets/tisch.png") no-repeat center;
   background-size: cover;
   margin: 8vh 0;
   background-position: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 /* Gemeinschaftskarten */
