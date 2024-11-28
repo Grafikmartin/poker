@@ -7,8 +7,51 @@ const audioFiles = {
   allin: new Audio("sounds/allin.mp3"),
   dealCards: new Audio("sounds/deal-cards.mp3"),
   intro: new Audio("sounds/intro.mp3"),
+  players: {
+    player1: {
+      fold: new Audio("sounds/player-1-fold.mp3"),
+      check: new Audio("sounds/player-1-check.mp3"),
+      call: new Audio("sounds/player-1-call.mp3"),
+      raise: new Audio("sounds/player-1-raise.mp3"),
+      allin: new Audio("sounds/player-1-all-in.mp3"),
+    },
+    player2: {
+      fold: new Audio("sounds/player-2-fold.mp3"),
+      check: new Audio("sounds/player-2-check.mp3"),
+      call: new Audio("sounds/player-2-call.mp3"),
+      raise: new Audio("sounds/player-2-raise.mp3"),
+      allin: new Audio("sounds/player-2-all-in.mp3"),
+    },
+    player3: {
+      fold: new Audio("sounds/player-3-fold.mp3"),
+      check: new Audio("sounds/player-3-check.mp3"),
+      call: new Audio("sounds/player-3-call.mp3"),
+      raise: new Audio("sounds/player-3-raise.mp3"),
+      allin: new Audio("sounds/player-3-all-in.mp3"),
+    },
+    player4: {
+      fold: new Audio("sounds/player-4-fold.mp3"),
+      check: new Audio("sounds/player-4-check.mp3"),
+      call: new Audio("sounds/player-4-call.mp3"),
+      raise: new Audio("sounds/player-4-raise.mp3"),
+      allin: new Audio("sounds/player-4-all-in.mp3"),
+    },
+    player5: {
+      fold: new Audio("sounds/player-5-fold.mp3"),
+      check: new Audio("sounds/player-5-check.mp3"),
+      call: new Audio("sounds/player-5-call.mp3"),
+      raise: new Audio("sounds/player-5-raise.mp3"),
+      allin: new Audio("sounds/player-5-all-in.mp3"),
+    },
+    player6: {
+      fold: new Audio("sounds/player-6-fold.mp3"),
+      check: new Audio("sounds/player-6-check.mp3"),
+      call: new Audio("sounds/player-6-call.mp3"),
+      raise: new Audio("sounds/player-6-raise.mp3"),
+      allin: new Audio("sounds/player-6-all-in.mp3"),
+    },
+  },
 };
-
 // Spieleraktionen mit Sounds
 let soundPlaying = false;
 const fullscreenEnter = document.getElementById("fullscreen-enter");
@@ -25,6 +68,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, 10000); // Entfernt nach 2 Sekunden
 });
+function toggleMuteAll(audioObject, mute) {
+  Object.values(audioObject).forEach((audio) => {
+    if (audio instanceof Audio) {
+      audio.muted = mute;
+    } else if (typeof audio === "object") {
+      toggleMuteAll(audio, mute); // Rekursiver Aufruf für verschachtelte Objekte
+    }
+  });
+}
+function setVolumeAll(audioObject, volume) {
+  Object.values(audioObject).forEach((audio) => {
+    if (audio instanceof Audio) {
+      audio.volume = volume;
+    } else if (typeof audio === "object") {
+      setVolumeAll(audio, volume); // Rekursiver Aufruf für verschachtelte Objekte
+    }
+  });
+}
 
 // Vollbild aktivieren
 fullscreenEnter.addEventListener("click", () => {
@@ -75,10 +136,8 @@ document.getElementById("mute-button").addEventListener("click", () => {
   soundMuted = !soundMuted; // Umschalten des Mute-Zustands
   muteButtonIcon.textContent = soundMuted ? "volume_off" : "volume_up";
 
-  // Optional: Mute alle aktiven Audio-Elemente direkt
-  Object.values(audioFiles).forEach((audio) => {
-    audio.muted = soundMuted;
-  });
+  // Neue Funktion: Mute alle Sounds, auch in verschachtelten Objekten
+  toggleMuteAll(audioFiles, soundMuted);
 
   console.log(soundMuted ? "Ton ist ausgestellt" : "Ton ist an");
 });
@@ -117,6 +176,20 @@ const players = [
   { id: "player5", name: "Player 5", chips: 2500, bet: 0, active: true },
   { id: "player6", name: "Player 6", chips: 2500, bet: 0, active: true },
 ];
+function displayAction(player, action) {//Funktion zur Anzeige von Aktionen im UI
+  const betElement = document.querySelector(`#${player.id} .bet`);
+  if (betElement) {
+    betElement.textContent = action; // Aktionstext anzeigen
+  }
+}
+function resetBetDisplay() {//Beim Start des Spiels solltest du sicherstellen, dass die div.bet-Felder zurückgesetzt 
+  players.forEach((player) => {
+    const betElement = document.querySelector(`#${player.id} .bet`);
+    if (betElement) {
+      betElement.textContent = ""; // Textfeld zurücksetzen
+    }
+  });
+}
 
 let currentBet = 0;
 let pot = 0;
@@ -318,7 +391,7 @@ function initializeBetSlider() {
   });
 }
 
-
+//dient dazu, dass der Sound nur einmal abgespielt wird
 function playSoundOnce(audioFile) {
   if (!soundPlaying) {
     soundPlaying = true;
@@ -327,35 +400,72 @@ function playSoundOnce(audioFile) {
     });
   }
 }
+function getPlayerSound(playerId, action) {
+  const playerSounds = audioFiles.players[playerId];
+  if (playerSounds && playerSounds[action]) {
+    return playerSounds[action];
+  }
+  return audioFiles[action]; // Fallback auf allgemeinen Sound
+}
+
+function playSound(action) {
+  const currentPlayer = players[currentPlayerIndex];
+  const sound = getPlayerSound(currentPlayer.id, action);
+  if (sound) {
+    sound.play();
+  }
+}
+function fold() {
+  console.log("fold() Funktion aufgerufen");
+  playSound("fold");
+  const currentPlayer = players[currentPlayerIndex];
+  displayAction(currentPlayer, "Fold"); // Aktion anzeigen
+  console.log(`${currentPlayer.name} hat gefoldet.`);
+  currentPlayer.active = false; // Spieler deaktivieren
+  foldAnimation(currentPlayer.id); // Kartenanimation
+  nextPlayer();
+}
+
 function check() {
   console.log("check() Funktion aufgerufen");
-  playSoundOnce(audioFiles.check); // Verhindert doppeltes Abspielen
-  console.log(`${players[currentPlayerIndex].name} hat gecheckt.`);
+  playSound("check");
+  const currentPlayer = players[currentPlayerIndex];
+  displayAction(currentPlayer, "Check"); // Aktion anzeigen
+  console.log(`${currentPlayer.name} hat gecheckt.`);
   nextPlayer();
 }
 
 function call() {
   console.log("call() Funktion aufgerufen");
-  playSoundOnce(audioFiles.call); // Verhindert doppeltes Abspielen
-  console.log(`${players[currentPlayerIndex].name} hat gecallt.`);
-  nextPlayer();
-}
-
-function fold() {
-  console.log("fold() Funktion aufgerufen");
-  playSoundOnce(audioFiles.fold); // Verhindert doppeltes Abspielen
-  console.log(`${players[currentPlayerIndex].name} hat gefoldet.`);
-  players[currentPlayerIndex].active = false; // Spieler deaktivieren
-  foldAnimation(players[currentPlayerIndex].id); // Kartenanimation
+  playSound("call");
+  const currentPlayer = players[currentPlayerIndex];
+  displayAction(currentPlayer, "Call"); // Aktion anzeigen
+  console.log(`${currentPlayer.name} hat gecallt.`);
   nextPlayer();
 }
 
 function raise(amount) {
   console.log(`raise() Funktion aufgerufen mit Betrag: ${amount}`);
-  playSoundOnce(audioFiles.raise); // Verhindert doppeltes Abspielen
-  console.log(`${players[currentPlayerIndex].name} erhöht um ${amount} Chips.`);
+  playSound("raise");
+  const currentPlayer = players[currentPlayerIndex];
+  displayAction(currentPlayer, `Raise: ${amount}`); // Aktion anzeigen
+  console.log(`${currentPlayer.name} erhöht um ${amount} Chips.`);
   nextPlayer();
 }
+
+function allIn() {
+  console.log("allIn() Funktion aufgerufen");
+  playSound("allin");
+  const currentPlayer = players[currentPlayerIndex];
+  displayAction(currentPlayer, "All-In"); // Aktion anzeigen
+  console.log(`${currentPlayer.name} geht All-In.`);
+  currentPlayer.bet = currentPlayer.chips;
+  currentPlayer.chips = 0;
+  updateUI(); // UI aktualisieren
+  nextPlayer();
+}
+
+
 
 // Karten ablegen (Fold-Animation)
 function foldAnimation(playerId) {
@@ -529,7 +639,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Voreinstellungen setzen
   speedSlider.value = 2; // Standardwert für Spielgeschwindigkeit
-  aiSpeed = 2000;
+  aiSpeed = 5000;
   musicVolumeSlider.value = 100; // Standardwert für Musiklautstärke
   soundVolumeSlider.value = 100; // Standardwert für Soundlautstärke
 
@@ -538,13 +648,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const speedValue = parseInt(event.target.value, 10);
     switch (speedValue) {
       case 3: // Schnell
-        aiSpeed = 250; // 0,25 Sekunden
+        aiSpeed = 1000; // 1 Sekunde
         break;
       case 2: // Normal
-        aiSpeed = 2000; // 2 Sekunden
+        aiSpeed = 5000; // 5 Sekunden
         break;
       case 1: // Langsam
-        aiSpeed = 4000; // 4 Sekunden
+        aiSpeed = 10000; // 10 Sekunden
         break;
     }
     console.log(`KI-Geschwindigkeit geändert: ${aiSpeed} ms`);
@@ -557,13 +667,13 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(`Musiklautstärke geändert: ${volume}`);
   });
 
+  // Event-Listener für den Sound-Lautstärke-Slider
   soundVolumeSlider.addEventListener("input", (event) => {
-    const volume = event.target.value / 100; // Lautstärke skalieren (0 bis 1)
-    Object.values(audioFiles).forEach((audio) => {
-      audio.volume = volume; // Lautstärke der Sounds
-    });
+    const volume = event.target.value / 100; // Skalierung auf 0 bis 1
+    setVolumeAll(audioFiles, volume); // Rekursive Lautstärkeanpassung
     console.log(`Soundlautstärke geändert: ${volume}`);
   });
+
 });
 function saveSettings() {
   const settings = {
