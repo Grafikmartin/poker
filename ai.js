@@ -7,36 +7,34 @@
  */
 function makeDecision(player, currentBet, pot) {
     const callAmount = currentBet - player.bet;
-    const raiseAmount = Math.floor(Math.random() * (player.chips / 10)); // Zufälliger Raise bis 10% der Chips
 
-    // Aggressives Verhalten bei großem Pot
-    if (pot > player.chips * 2) {
-        return Math.random() < 0.5 ? "call" : "raise"; // 50% Chance auf Call oder Raise
+    // 1. Call, wenn nötig und möglich
+    if (callAmount > 0) {
+        if (player.chips >= callAmount) {
+            return Math.random() < 0.7 ? "call" : "raise"; // 70% Call, 30% Raise
+        } else {
+            return "fold"; // Fold bei zu wenig Chips
+        }
     }
 
-    // Defensives Verhalten bei wenigen Chips
-    if (player.chips < currentBet / 2) {
-        return "fold"; // Passen bei wenig Chips
+    // 2. Raise, wenn sinnvoll
+    const minRaise = currentBet + 10; // Mindestbetrag für Raise
+    const maxRaise = Math.min(player.chips, currentBet + Math.floor(Math.random() * (player.chips / 2)));
+    if (Math.random() < 0.3 && maxRaise > minRaise) {
+        return "raise";
     }
 
-    // Checken, wenn möglich
+    // 3. Check, wenn kein Einsatz notwendig ist
     if (callAmount === 0) {
         return "check";
     }
 
-    // Mit einer kleinen Wahrscheinlichkeit raisen
-    if (Math.random() < 0.3 && player.chips > callAmount + raiseAmount) {
-        return "raise";
-    }
-
-    // Ansonsten callen, wenn möglich
-    if (player.chips >= callAmount) {
-        return "call";
-    }
-
-    // Wenn keine andere Option möglich ist, passen
+    // 4. Fold, wenn keine bessere Aktion möglich
     return "fold";
 }
+
+
+
 
 /**
  * Führt die Entscheidung der KI aus.
@@ -56,6 +54,7 @@ function executeDecision(player, decision, actions) {
             break;
         case "raise":
             const raiseAmount = Math.floor(Math.random() * (player.chips / 10)); // Zufälliger Raise-Betrag
+            player.bet += raiseAmount; // Aktualisiere den Einsatz des Spielers
             actions.raise(raiseAmount);
             break;
         case "fold":
@@ -65,6 +64,7 @@ function executeDecision(player, decision, actions) {
             console.error("Ungültige Entscheidung:", decision);
     }
 }
+
 
 // Exportiere die Funktionen für die Verwendung in anderen Dateien
 export { makeDecision, executeDecision };
