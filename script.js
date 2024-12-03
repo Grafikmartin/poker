@@ -64,6 +64,24 @@ function setAudioProperties(audioElement, options = {}) {
   if (options.pause && !audioElement.paused) audioElement.pause();
 }
 
+const blindLevels = [
+  { players: 6, sb: 25, bb: 50 },
+  { players: 5, sb: 50, bb: 100 },
+  { players: 4, sb: 100, bb: 200 },
+  { players: 3, sb: 200, bb: 400 },
+  { players: 2, sb: 400, bb: 800 },
+];
+let currentSB = 0;
+let currentBB = 0;
+
+function updateBlinds() {
+  const activePlayers = players.filter((player) => player.active).length;
+  const level = blindLevels.find((b) => b.players === activePlayers);
+  if (level) {
+    currentSB = level.sb;
+    currentBB = level.bb;
+  }
+}
 
 // Spieleraktionen mit Sounds
 let soundPlaying = false;
@@ -387,6 +405,19 @@ function assignMarkers() {
   const sbIndex = (dealerIndex + 1) % players.length; // Small Blind
   const bbIndex = (dealerIndex + 2) % players.length; // Big Blind
 
+  updateBlinds(); // Blinds basierend auf Spieleranzahl aktualisieren
+
+  // Small Blind abziehen
+  players[sbIndex].chips -= currentSB;
+  players[sbIndex].bet = currentSB;
+
+  // Big Blind abziehen
+  players[bbIndex].chips -= currentBB;
+  players[bbIndex].bet = currentBB;
+
+  currentBet = currentBB; // Der aktuelle Einsatz ist mindestens der BB
+  pot = currentSB + currentBB; // SB und BB in den Pot hinzufügen
+
   updateMarkers(players, dealerIndex, sbIndex, bbIndex);
 
   // Spieler nach dem Big Blind beginnt
@@ -395,6 +426,7 @@ function assignMarkers() {
   console.log(`Spieler ${players[currentPlayerIndex].name} beginnt.`);
   highlightCurrentPlayer(); // Markiere den Spieler, der an der Reihe ist
 }
+
 
 // Marker aktualisieren
 function updateMarkers(players, dealerIndex, sbIndex, bbIndex) {
@@ -584,7 +616,14 @@ function fold() {
   console.log(`${currentPlayer.name} hat gefoldet.`);
   currentPlayer.active = false; // Spieler deaktivieren
   foldAnimation(currentPlayer.id); // Kartenanimation
-  nextPlayer();
+
+  const activePlayers = players.filter((player) => player.active);
+  if (activePlayers.length <= 1) {
+    console.log(`Spieler ${activePlayers[0].name} gewinnt das Spiel!`);
+    return; // Das Spiel endet, wenn nur ein Spieler übrig bleibt
+  }
+  updateBlinds(); // Aktualisiere Blinds basierend auf der Spielerzahl
+  nextPlayer(); // Zum nächsten Spieler wechseln
 }
 
 function check() {
@@ -624,17 +663,16 @@ function raise(amount) {
   playSound("raise");
 
   const currentPlayer = players[currentPlayerIndex];
-
-  const minRaise = currentBet + 10; // Mindestraise ist der aktuelle Einsatz + 10
+  const minRaise = currentBet + currentBB; // Mindestraise ist der aktuelle Einsatz + BB
 
   if (amount < minRaise) {
-      console.error(`Raise-Betrag muss mindestens ${minRaise} sein.`);
-      return; // Abbrechen, wenn Raise ungültig ist
+    console.error(`Raise-Betrag muss mindestens ${minRaise} sein.`);
+    return; // Abbrechen, wenn Raise ungültig ist
   }
 
   if (amount > currentPlayer.chips) {
-      console.error("Raise-Betrag übersteigt verfügbare Chips!");
-      return; // Abbrechen, wenn der Spieler nicht genug Chips hat
+    console.error("Raise-Betrag übersteigt verfügbare Chips!");
+    return; // Abbrechen, wenn der Spieler nicht genug Chips hat
   }
 
   const raiseDiff = amount - currentPlayer.bet; // Zusätzlicher Betrag über den aktuellen Einsatz hinaus
@@ -649,6 +687,7 @@ function raise(amount) {
 
   nextPlayer(); // Zum nächsten Spieler wechseln
 }
+
 
 
 function allIn() {
@@ -742,6 +781,7 @@ function highlightCurrentPlayer() {
 // UI aktualisieren
 function updateUI() {
   document.getElementById("pot").textContent = `Pot: ${pot}`;
+  document.getElementById("current-blinds").textContent = `SB: ${currentSB} / BB: ${currentBB}`;
   players.forEach((player) => {
     const playerElement = document.querySelector(`#${player.id} .chips`);
     const betElement = document.querySelector(`#${player.id} .bet`);
