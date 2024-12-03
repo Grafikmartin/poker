@@ -1,6 +1,5 @@
 const audioFiles = {
  
-  
   dealCards: new Audio("sounds/deal-cards.mp3"),
   intro: new Audio("sounds/intro.mp3"),
   players: {
@@ -57,16 +56,22 @@ let aiSpeed = 2000; // Standardwert: 2 Sekunden (normale Geschwindigkeit)
 
 // intro
 document.addEventListener("DOMContentLoaded", () => {
-  const speedSlider = document.getElementById("speed-slider");
-  if (!speedSlider) {
-    console.error("Das Element mit ID 'speed-slider' wurde nicht gefunden.");
-    return;
-  }
-
-  // Event-Listener für speedSlider hinzufügen
-  speedSlider.addEventListener("input", saveSettings);
+  setTimeout(() => {
+    const introOverlay = document.getElementById("intro-overlay");
+    if (introOverlay) {
+      introOverlay.remove();
+    }
+  }, 10000); // Entfernt nach 2 Sekunden
 });
-
+function toggleMuteAll(audioObject, mute) {
+  Object.values(audioObject).forEach((audio) => {
+    if (audio instanceof Audio) {
+      audio.muted = mute;
+    } else if (typeof audio === "object") {
+      toggleMuteAll(audio, mute); // Rekursiver Aufruf für verschachtelte Objekte
+    }
+  });
+}
 function setVolumeAll(audioObject, volume) {
   Object.values(audioObject).forEach((audio) => {
     if (audio instanceof Audio) {
@@ -397,8 +402,53 @@ function updateMarkers(players, dealerIndex, sbIndex, bbIndex) {
 
 // Event-Listener initialisieren, wenn das Dokument geladen ist
 document.addEventListener("DOMContentLoaded", () => {
-  initializeBetSlider();
+  // Alle relevanten Elemente holen
+  const speedSlider = document.getElementById("speed-slider");
+  const musicVolumeSlider = document.getElementById("music-volume");
+  const soundVolumeSlider = document.getElementById("sound-volume");
+  const backgroundMusic = document.getElementById("background-music");
+
+  // Fehler abfangen, falls ein Element fehlt
+  if (!speedSlider || !musicVolumeSlider || !soundVolumeSlider || !backgroundMusic) {
+    console.error("Ein oder mehrere DOM-Elemente fehlen!");
+    return;
+  }
+
+  // Voreinstellungen setzen
+  speedSlider.value = 2; // Standardwert für Spielgeschwindigkeit
+  musicVolumeSlider.value = 100; // Standardwert für Musiklautstärke
+  soundVolumeSlider.value = 100; // Standardwert für Soundlautstärke
+
+  // Event-Listener für die Slider hinzufügen
+  speedSlider.addEventListener("input", (event) => {
+    const speedValue = parseInt(event.target.value, 10);
+    switch (speedValue) {
+      case 3: // Schnell
+        aiSpeed = 1000; // 1 Sekunde
+        break;
+      case 2: // Normal
+        aiSpeed = 5000; // 5 Sekunden
+        break;
+      case 1: // Langsam
+        aiSpeed = 10000; // 10 Sekunden
+        break;
+    }
+    console.log(`KI-Geschwindigkeit geändert: ${aiSpeed} ms`);
+  });
+
+  musicVolumeSlider.addEventListener("input", (event) => {
+    const volume = event.target.value / 100; // Lautstärke skalieren (0 bis 1)
+    backgroundMusic.volume = volume; // Lautstärke der Hintergrundmusik
+    console.log(`Musiklautstärke geändert: ${volume}`);
+  });
+
+  soundVolumeSlider.addEventListener("input", (event) => {
+    const volume = event.target.value / 100; // Skalierung auf 0 bis 1
+    setVolumeAll(audioFiles, volume); // Rekursive Lautstärkeanpassung
+    console.log(`Soundlautstärke geändert: ${volume}`);
+  });
 });
+
 // Funktion, um den Bet-Slider zu initialisieren und zu synchronisieren
 function initializeBetSlider() {
   const player1 = players.find((player) => player.id === "player1"); // Finde Player 1
@@ -847,28 +897,11 @@ function loadSettings() {
 }
 
 // Einstellungen beim Laden der Seite laden
+document.addEventListener("DOMContentLoaded", loadSettings);
 document.addEventListener("DOMContentLoaded", () => {
-  // Slider-Elemente referenzieren
   const speedSlider = document.getElementById("speed-slider");
-  const musicVolumeSlider = document.getElementById("music-volume");
-  const soundVolumeSlider = document.getElementById("sound-volume");
 
-  // Event-Listener für die Slider hinzufügen
-  if (speedSlider) {
-    speedSlider.addEventListener("input", saveSettings);
-  } else {
-    console.error("Das Element 'speed-slider' wurde nicht gefunden.");
-  }
-
-  if (musicVolumeSlider) {
-    musicVolumeSlider.addEventListener("input", saveSettings);
-  } else {
-    console.error("Das Element 'music-volume' wurde nicht gefunden.");
-  }
-
-  if (soundVolumeSlider) {
-    soundVolumeSlider.addEventListener("input", saveSettings);
-  } else {
-    console.error("Das Element 'sound-volume' wurde nicht gefunden.");
-  }
+  // Event-Listener korrekt hinzufügen
+  speedSlider.addEventListener("input", saveSettings);
 });
+

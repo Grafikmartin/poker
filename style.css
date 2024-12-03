@@ -144,7 +144,6 @@ body {
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0); /* Optional: Ein dunkler Hintergrund */
-  background-image: url("assets/your-background.jpg"); /* Setzt das gewünschte Bild */
   background-size: cover; /* Bild füllt den gesamten Bereich */
   background-position: center; /* Bild zentrieren */
   background-repeat: no-repeat; /* Kein Wiederholen des Bildes */
@@ -271,7 +270,6 @@ body {
 .player {
   position: absolute;
   width: 20vh;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -290,6 +288,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
 }
+
 .player-image1 {
   background-image: url(./assets/you.jpg);
   background-size: cover;
@@ -322,6 +321,7 @@ body {
   left: 5%;
   transform: translate(-50%, -50%);
 }
+
 .player-image3 {
   background-image: url(./assets/lady.jpg);
   background-size: cover;
@@ -338,6 +338,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
 }
+
 .player-image4 {
   background-image: url(./assets/hannibal.jpg);
   background-size: cover;
@@ -354,6 +355,7 @@ body {
   left: 95%;
   transform: translate(-50%, -50%);
 }
+
 .player-image5 {
   background-image: url(./assets/mephisto.jpg);
   background-size: cover;
@@ -370,6 +372,7 @@ body {
   left: 95%;
   transform: translate(-50%, 50%);
 }
+
 .player-image6 {
   background-image: url(./assets/sauron.jpg);
   background-size: cover;
@@ -380,6 +383,7 @@ body {
   margin-bottom: 0.3vw;
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
+
 .highlight {
   border: 0.5vh solid rgba(255, 0, 0, 0.8);
   box-shadow: 0 0 15px rgb(235, 86, 1);
@@ -405,7 +409,7 @@ body {
   background-size: cover;
   right: -6%;
   top: -4%;
-  border: 1px solid rgba(253, 253, 253, 0.1);
+  border: 2px solid rgba(253, 253, 253, 0.5);
   transform: scale(0.8);
 }
 
@@ -416,7 +420,7 @@ body {
   left: -3%;
   top: -3%;
 
-  border: 1px solid rgba(98, 0, 0, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .marker.sb {
@@ -425,7 +429,7 @@ body {
   background-size: cover;
   left: -6%;
   top: -4%;
-  border: 1px solid rgba(111, 78, 2, 0.2);
+  border: 2px solid rgba(111, 78, 2, 0.2);
   transform: scale(0.8);
 }
 
