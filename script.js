@@ -471,50 +471,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Funktion, um den Bet-Slider zu initialisieren und zu synchronisieren
 function initializeBetSlider() {
-  const player1 = players.find((player) => player.id === "player1"); // Finde Player 1
+  const player1 = players.find((player) => player.id === "player1");
+  if (!player1) return;
+
   const betSlider = document.getElementById("bet-slider");
   const betValue = document.getElementById("bet-value");
-  const increaseButton = document.getElementById("increase-slider");
-  const decreaseButton = document.getElementById("decrease-slider");
 
-  // Setze den Slider auf den Bereich von 0 bis Chips von Player 1
-  if (player1) {
-    betSlider.min = 0;
-    betSlider.max = player1.chips;
-    betSlider.value = 0; // Standardwert ist 0
-    betValue.textContent = `0`; // Initialisiere Anzeige
-  }
+  betSlider.min = 0;
+  betSlider.max = player1.chips;
+  betSlider.value = 0;
+  betValue.textContent = `0`;
 
-  // Aktualisiere die Anzeige des Slider-Werts
-  function updateBetValue(value) {
-    betValue.textContent = value; // Zeige den aktuellen Wert
-    betSlider.value = value; // Synchronisiere den Slider
-  }
+  const updateBetValue = (value) => {
+    betSlider.value = value;
+    betValue.textContent = value;
+  };
 
-  // Event-Listener für den Slider
-  betSlider.addEventListener("input", (event) => {
-    const sliderValue = event.target.value;
-    updateBetValue(sliderValue); // Zeige den Slider-Wert an
+  betSlider.addEventListener("input", (event) => updateBetValue(event.target.value));
+  document.getElementById("increase-slider").addEventListener("click", () => {
+    if (+betSlider.value < player1.chips) updateBetValue(+betSlider.value + 1);
   });
-
-  // Event-Listener für den Erhöhen-Button
-  increaseButton.addEventListener("click", () => {
-    let currentValue = parseInt(betSlider.value, 10);
-    if (currentValue < player1.chips) {
-      currentValue += 1; // Erhöhe den Wert um 1
-      updateBetValue(currentValue);
-    }
-  });
-
-  // Event-Listener für den Verringern-Button
-  decreaseButton.addEventListener("click", () => {
-    let currentValue = parseInt(betSlider.value, 10);
-    if (currentValue > 0) {
-      currentValue -= 1; // Verringere den Wert um 1
-      updateBetValue(currentValue);
-    }
+  document.getElementById("decrease-slider").addEventListener("click", () => {
+    if (+betSlider.value > 0) updateBetValue(+betSlider.value - 1);
   });
 }
+
 
 //dient dazu, dass der Sound nur einmal abgespielt wird
 function playSoundOnce(audioFile) {
@@ -543,32 +524,14 @@ function getPlayerSound(playerId, action) {
 function makeDecision(player, currentBet, pot) {
   const callAmount = currentBet - player.bet;
 
-  // 1. Call, wenn nötig und möglich
-  if (callAmount > 0) {
-    if (player.chips >= callAmount) {
-      return Math.random() < 0.7 ? "call" : "raise"; // 70% Call, 30% Raise
-    } else {
-      return "fold"; // Fold bei zu wenig Chips
-    }
-  }
+  if (callAmount > 0 && player.chips < callAmount) return "fold";
+  if (callAmount > 0) return Math.random() < 0.7 ? "call" : "raise";
 
-  // 2. Raise, wenn sinnvoll
-  const minRaise = currentBet + 10; // Mindestbetrag für Raise
-  const maxRaise = Math.min(
-    player.chips,
-    currentBet + Math.floor(Math.random() * (player.chips / 2))
-  );
-  if (Math.random() < 0.3 && maxRaise > minRaise) {
-    return "raise";
-  }
+  const minRaise = currentBet + 10;
+  const maxRaise = Math.min(player.chips, currentBet + Math.floor(Math.random() * (player.chips / 2)));
+  if (Math.random() < 0.3 && maxRaise > minRaise) return "raise";
 
-  // 3. Check, wenn kein Einsatz notwendig ist
-  if (callAmount === 0) {
-    return "check";
-  }
-
-  // 4. Fold, wenn keine bessere Aktion möglich
-  return "fold";
+  return "check";
 }
 
 /**
@@ -917,11 +880,13 @@ function loadSettings() {
 }
 
 // Einstellungen beim Laden der Seite laden
-document.addEventListener("DOMContentLoaded", loadSettings);
 document.addEventListener("DOMContentLoaded", () => {
-  const speedSlider = document.getElementById("speed-slider");
+  loadSettings();
 
-  // Event-Listener korrekt hinzufügen
+  const speedSlider = document.getElementById("speed-slider");
   speedSlider.addEventListener("input", saveSettings);
+
+  // Füge hier alle anderen DOM-Initialisierungen hinzu
+  initializeBetSlider();
 });
 
