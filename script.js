@@ -47,6 +47,24 @@ const audioFiles = {
     },
   },
 };
+
+/**
+ * Universelle Funktion zur Steuerung von Audio-Eigenschaften.
+ * @param {HTMLAudioElement} audioElement - Das Audio-Element.
+ * @param {Object} options - Optionen für das Audio-Element.
+ * @param {number} [options.volume] - Lautstärke (0 bis 1).
+ * @param {boolean} [options.muted] - Ob das Audio stummgeschaltet ist.
+ * @param {boolean} [options.play] - Ob das Audio abgespielt werden soll.
+ * @param {boolean} [options.pause] - Ob das Audio pausiert werden soll.
+ */
+function setAudioProperties(audioElement, options = {}) {
+  if ('volume' in options) audioElement.volume = options.volume;
+  if ('muted' in options) audioElement.muted = options.muted;
+  if (options.play && audioElement.paused) audioElement.play();
+  if (options.pause && !audioElement.paused) audioElement.pause();
+}
+
+
 // Spieleraktionen mit Sounds
 let soundPlaying = false;
 const fullscreenEnter = document.getElementById("fullscreen-enter");
@@ -66,12 +84,13 @@ document.addEventListener("DOMContentLoaded", () => {
 function toggleMuteAll(audioObject, mute) {
   Object.values(audioObject).forEach((audio) => {
     if (audio instanceof Audio) {
-      audio.muted = mute;
-    } else if (typeof audio === "object") {
+      audio.muted = mute; // Stummschalten oder aktivieren
+    } else if (audio && typeof audio === "object") {
       toggleMuteAll(audio, mute); // Rekursiver Aufruf für verschachtelte Objekte
     }
   });
 }
+
 function setVolumeAll(audioObject, volume) {
   Object.values(audioObject).forEach((audio) => {
     if (audio instanceof Audio) {
@@ -131,7 +150,7 @@ document.getElementById("mute-button").addEventListener("click", () => {
   soundMuted = !soundMuted; // Umschalten des Mute-Zustands
   muteButtonIcon.textContent = soundMuted ? "volume_off" : "volume_up";
 
-  // Neue Funktion: Mute alle Sounds, auch in verschachtelten Objekten
+  // Alle Sounds stummschalten oder aktivieren
   toggleMuteAll(audioFiles, soundMuted);
 
   console.log(soundMuted ? "Ton ist ausgestellt" : "Ton ist an");
@@ -437,10 +456,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   musicVolumeSlider.addEventListener("input", (event) => {
-    const volume = event.target.value / 100; // Lautstärke skalieren (0 bis 1)
-    backgroundMusic.volume = volume; // Lautstärke der Hintergrundmusik
+    const volume = event.target.value / 100;
+    setAudioProperties(backgroundMusic, { volume });
     console.log(`Musiklautstärke geändert: ${volume}`);
   });
+  
 
   soundVolumeSlider.addEventListener("input", (event) => {
     const volume = event.target.value / 100; // Skalierung auf 0 bis 1
