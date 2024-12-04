@@ -316,23 +316,30 @@ function renderCard(card, hidden = false) {
   cardDiv.classList.add("card");
 
   if (hidden) {
+    // Rückseite für KI oder versteckte Karten
     cardDiv.style.backgroundImage = "url('assets/pokerkarte_rueck.jpg')";
     cardDiv.style.backgroundSize = "cover";
     return cardDiv;
   }
 
-  if (card.color === "red") {
-    cardDiv.classList.add("red");
-  } else {
-    cardDiv.classList.add("black");
-  }
+  // Erstelle den Bildnamen basierend auf dem Kartenwert und der Farbe
+  const suitMap = {
+    "♥": "H",
+    "♦": "D",
+    "♠": "S",
+    "♣": "C",
+  };
 
-  cardDiv.innerHTML = `
-        <div class="value">${card.value}</div>
-        <div class="suit">${card.suit}</div>
-    `;
+  const suit = suitMap[card.suit]; // Konvertiere das Symbol in einen Buchstaben
+  const value = card.value === "10" ? "10" : card.value; // 10 bleibt 10
+  const cardImageName = `${value}-${suit}.png`;
+
+  cardDiv.style.backgroundImage = `url('assets/cards/${cardImageName}')`;
+  cardDiv.style.backgroundSize = "cover";
+
   return cardDiv;
 }
+
 
 // Karten mit Animation verteilen
 function dealCards(deck, players) {
