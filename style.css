@@ -460,16 +460,18 @@ body {
 
 #player2 .bet {
   top: 20%; /* Rechts neben Spieler 2 */
-  left: 117%;
+  left: 155%;
   transform: translate(-50%, -50%);
   width: 100%;
+  text-align: left; 
 }
 
 #player3 .bet {
   top: 80%; /* Rechts unter Spieler 3 */
-  left: 117%;
+  left: 155%;
   transform: translate(-50%, -50%);
   width: 100%;
+  text-align: left; 
 }
 
 #player4 .bet {
@@ -481,14 +483,16 @@ body {
 
 #player5 .bet {
   top: 80%; /* Links unter Spieler 5 */
-  left: -20%;
+  left: -21%;
   transform: translate(-50%, -50%);
+  text-align: right;
 }
 
 #player6 .bet {
   top: 20%; /* Links über Spieler 6 */
-  left: -20%;
+  left: -21%;
   transform: translate(-50%, -50%);
+  text-align: right;
 }
 
 .chips {
@@ -697,7 +701,7 @@ max-height: 50vh;
   font-size: 1.5vh;
   font-weight: bold;
 
- 
+ margin-top: 70vh;
   text-align: center;
   color:rgb(231, 177, 0);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);

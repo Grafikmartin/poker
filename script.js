@@ -1,4 +1,5 @@
 const audioFiles = {
+ 
   dealCards: new Audio("sounds/deal-cards.mp3"),
   intro: new Audio("sounds/intro.mp3"),
   players: {
@@ -57,8 +58,8 @@ const audioFiles = {
  * @param {boolean} [options.pause] - Ob das Audio pausiert werden soll.
  */
 function setAudioProperties(audioElement, options = {}) {
-  if ("volume" in options) audioElement.volume = options.volume;
-  if ("muted" in options) audioElement.muted = options.muted;
+  if ('volume' in options) audioElement.volume = options.volume;
+  if ('muted' in options) audioElement.muted = options.muted;
   if (options.play && audioElement.paused) audioElement.play();
   if (options.pause && !audioElement.paused) audioElement.pause();
 }
@@ -338,60 +339,6 @@ function renderCard(card, hidden = false) {
 
   return cardDiv;
 }
-// Marker zufällig verteilen
-function assignMarkers() {
-  console.log("Marker werden gesetzt.");
-  dealerIndex = Math.floor(Math.random() * players.length);
-  const sbIndex = (dealerIndex + 1) % players.length;
-  const bbIndex = (dealerIndex + 2) % players.length;
-
-  updateBlinds(); // Blinds basierend auf Spieleranzahl aktualisieren
-
-  players[sbIndex].chips -= currentSB;
-  players[sbIndex].bet = currentSB;
-
-  players[bbIndex].chips -= currentBB;
-  players[bbIndex].bet = currentBB;
-
-  currentBet = currentBB;
-  pot = currentSB + currentBB;
-
-  updateMarkers(players, dealerIndex, sbIndex, bbIndex);
-
-  currentPlayerIndex = (bbIndex + 1) % players.length;
-  console.log(`Dealer: ${players[dealerIndex].name}, SB: ${players[sbIndex].name}, BB: ${players[bbIndex].name}`);
-  console.log(`Nächster Spieler: ${players[currentPlayerIndex].name}`);
-}
-
-function updateMarkers(players, dealerIndex, sbIndex, bbIndex) {
-  players.forEach((player, index) => {
-    const marker = document.querySelector(`#marker-${player.id}`);
-    if (!marker) {
-      console.error(`Marker für ${player.id} nicht gefunden.`);
-      return;
-    }
-
-    marker.className = "marker";
-    marker.style.visibility = "hidden";
-
-    if (index === dealerIndex) {
-      marker.classList.add("d");
-      marker.textContent = "D";
-      marker.style.visibility = "visible";
-    } else if (index === sbIndex) {
-      marker.classList.add("sb");
-      marker.textContent = "SB";
-      marker.style.visibility = "visible";
-    } else if (index === bbIndex) {
-      marker.classList.add("bb");
-      marker.textContent = "BB";
-      marker.style.visibility = "visible";
-    }
-  });
-  console.log(
-    `Marker aktualisiert: Dealer=${players[dealerIndex].name}, SB=${players[sbIndex].name}, BB=${players[bbIndex].name}`
-  );
-}
 
 
 // Karten mit Animation verteilen
@@ -437,26 +384,93 @@ function dealCards(deck, players) {
 
       animationDelay += 0.3; // Verzögerung für die nächste Karte
     });
-    console.log("Kartenverteilung abgeschlossen. Marker nicht erneut aktualisiert.");
-
   }
 
   // Warten, bis Kartenverteilung abgeschlossen ist
   setTimeout(() => {
+    assignMarkers(); // Marker zuweisen (Dealer, SB, BB)
     updateUI(); // UI aktualisieren
-    console.log("Kartenverteilung abgeschlossen.");
+
+    // Automatisch den ersten Zug starten
     const currentPlayer = players[currentPlayerIndex];
+    console.log(
+      `Nach Kartenverteilung ist Spieler ${currentPlayer.name} an der Reihe.`
+    );
+
     if (!currentPlayer.isUser) {
-        console.log(`KI-Spieler ${currentPlayer.name} beginnt automatisch.`);
-        nextPlayer();
+      console.log(`KI-Spieler ${currentPlayer.name} beginnt automatisch.`);
+      nextPlayer(); // KI-Spieler führt automatisch die nächste Aktion aus
     } else {
-        console.log(`Dein Zug, ${currentPlayer.name}.`);
+      console.log(`Dein Zug, ${currentPlayer.name}.`);
     }
-}, animationDelay * 1000 + 500);
- // Sicherstellen, dass Animation abgeschlossen ist
+  }, animationDelay * 1000 + 500); // Sicherstellen, dass Animation abgeschlossen ist
 }
 
+// Marker zufällig verteilen
+function assignMarkers() {
+  console.log("Marker werden gesetzt.");
+
+  // Dealer zufällig wählen
+  dealerIndex = Math.floor(Math.random() * players.length);
+
+  // Small Blind und Big Blind berechnen
+  const sbIndex = (dealerIndex + 1) % players.length; // Small Blind
+  const bbIndex = (dealerIndex + 2) % players.length; // Big Blind
+
+  // Blinds basierend auf Spieleranzahl aktualisieren
+  updateBlinds();
+
+  // Small Blind und Big Blind setzen
+  players[sbIndex].chips -= currentSB;
+  players[sbIndex].bet = currentSB;
+
+  players[bbIndex].chips -= currentBB;
+  players[bbIndex].bet = currentBB;
+
+  // Marker aktualisieren
+  updateMarkers(players, dealerIndex, sbIndex, bbIndex);
+
+  // Spieler nach dem Big Blind als Startspieler bestimmen
+  currentPlayerIndex = (bbIndex + 1) % players.length;
+
+  // Sicherstellen, dass der Startspieler aktiv ist
+  while (!players[currentPlayerIndex].active) {
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+  }
+
+  console.log(
+    `Dealer: ${players[dealerIndex].name}, SB: ${players[sbIndex].name}, BB: ${players[bbIndex].name}`
+  );
+  console.log(`Nächster Spieler: ${players[currentPlayerIndex].name}`);
+}
+
+
+
 // Marker aktualisieren
+function updateMarkers(players, dealerIndex, sbIndex, bbIndex) {
+  players.forEach((player, index) => {
+    const marker = document.querySelector(`#marker-${player.id}`);
+    if (marker) {
+      marker.className = "marker"; // Entferne vorherige Klassen
+      marker.style.visibility = "hidden";
+
+      if (index === dealerIndex) {
+        marker.classList.add("d");
+        marker.textContent = "D";
+        marker.style.visibility = "visible";
+      } else if (index === sbIndex) {
+        marker.classList.add("sb");
+        marker.textContent = "SB";
+        marker.style.visibility = "visible";
+      } else if (index === bbIndex) {
+        marker.classList.add("bb");
+        marker.textContent = "BB";
+        marker.style.visibility = "visible";
+      }
+    }
+  });
+}
+
 
 // Event-Listener initialisieren, wenn das Dokument geladen ist
 document.addEventListener("DOMContentLoaded", () => {
@@ -467,12 +481,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const backgroundMusic = document.getElementById("background-music");
 
   // Fehler abfangen, falls ein Element fehlt
-  if (
-    !speedSlider ||
-    !musicVolumeSlider ||
-    !soundVolumeSlider ||
-    !backgroundMusic
-  ) {
+  if (!speedSlider || !musicVolumeSlider || !soundVolumeSlider || !backgroundMusic) {
     console.error("Ein oder mehrere DOM-Elemente fehlen!");
     return;
   }
@@ -504,6 +513,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setAudioProperties(backgroundMusic, { volume });
     console.log(`Musiklautstärke geändert: ${volume}`);
   });
+  
 
   soundVolumeSlider.addEventListener("input", (event) => {
     const volume = event.target.value / 100; // Skalierung auf 0 bis 1
@@ -530,9 +540,7 @@ function initializeBetSlider() {
     betValue.textContent = value;
   };
 
-  betSlider.addEventListener("input", (event) =>
-    updateBetValue(event.target.value)
-  );
+  betSlider.addEventListener("input", (event) => updateBetValue(event.target.value));
   document.getElementById("increase-slider").addEventListener("click", () => {
     if (+betSlider.value < player1.chips) updateBetValue(+betSlider.value + 1);
   });
@@ -540,6 +548,7 @@ function initializeBetSlider() {
     if (+betSlider.value > 0) updateBetValue(+betSlider.value - 1);
   });
 }
+
 
 //dient dazu, dass der Sound nur einmal abgespielt wird
 function playSoundOnce(audioFile) {
@@ -572,10 +581,7 @@ function makeDecision(player, currentBet, pot) {
   if (callAmount > 0) return Math.random() < 0.7 ? "call" : "raise";
 
   const minRaise = currentBet + 10;
-  const maxRaise = Math.min(
-    player.chips,
-    currentBet + Math.floor(Math.random() * (player.chips / 2))
-  );
+  const maxRaise = Math.min(player.chips, currentBet + Math.floor(Math.random() * (player.chips / 2)));
   if (Math.random() < 0.3 && maxRaise > minRaise) return "raise";
 
   return "check";
@@ -657,8 +663,8 @@ function call() {
   const callAmount = currentBet - currentPlayer.bet; // Differenzbetrag berechnen
 
   if (callAmount > currentPlayer.chips) {
-    console.error("Call-Betrag übersteigt verfügbare Chips!");
-    return; // Abbrechen, wenn der Spieler nicht genug Chips hat
+      console.error("Call-Betrag übersteigt verfügbare Chips!");
+      return; // Abbrechen, wenn der Spieler nicht genug Chips hat
   }
 
   currentPlayer.chips -= callAmount; // Chips des Spielers reduzieren
@@ -671,6 +677,7 @@ function call() {
 
   nextPlayer(); // Zum nächsten Spieler wechseln
 }
+
 
 function raise(amount) {
   console.log(`raise() Funktion aufgerufen mit Betrag: ${amount}`);
@@ -702,6 +709,8 @@ function raise(amount) {
   nextPlayer(); // Zum nächsten Spieler wechseln
 }
 
+
+
 function allIn() {
   console.log("allIn() Funktion aufgerufen");
   playSound("allin");
@@ -730,6 +739,7 @@ function foldAnimation(playerId) {
 
 // Zum nächsten Spieler wechseln
 function nextPlayer() {
+  // Entferne Hervorhebung von allen Spielern
   players.forEach((player) => {
     const playerElement = document.getElementById(player.id);
     if (playerElement) {
@@ -737,6 +747,7 @@ function nextPlayer() {
     }
   });
 
+  // Nächsten aktiven Spieler finden
   do {
     currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
   } while (!players[currentPlayerIndex].active);
@@ -744,25 +755,20 @@ function nextPlayer() {
   const currentPlayer = players[currentPlayerIndex];
   const currentPlayerElement = document.getElementById(currentPlayer.id);
 
+  // Spieler hervorheben
   if (currentPlayerElement) {
     currentPlayerElement.classList.add("highlight");
   }
 
   console.log(`Spieler ${currentPlayer.name} ist dran.`);
 
+  // Unterscheide zwischen Benutzer und KI
   if (currentPlayer.isUser) {
     console.log(`Dein Zug, ${currentPlayer.name}`);
   } else {
     console.log(`KI-Spieler ${currentPlayer.name} trifft eine Entscheidung.`);
     setTimeout(() => {
       const decision = makeDecision(currentPlayer, currentBet, pot);
-
-      // Überprüfen, ob die Entscheidung gültig ist
-      if (decision === "check" && currentBet > currentPlayer.bet) {
-        console.error("Ungültige Entscheidung: Check bei laufendem Einsatz.");
-        return; // Abbrechen, wenn die Entscheidung ungültig ist
-      }
-
       executeDecision(currentPlayer, decision, {
         check: () => check(),
         call: () => call(),
@@ -772,6 +778,7 @@ function nextPlayer() {
     }, aiSpeed);
   }
 }
+
 
 function highlightCurrentPlayer() {
   // Entferne den Rand von allen Spielern
@@ -793,9 +800,7 @@ function highlightCurrentPlayer() {
 // UI aktualisieren
 function updateUI() {
   document.getElementById("pot").textContent = `Pot: ${pot}`;
-  document.getElementById(
-    "current-blinds"
-  ).textContent = `SB: ${currentSB} / BB: ${currentBB}`;
+  document.getElementById("current-blinds").textContent = `SB: ${currentSB} / BB: ${currentBB}`;
   players.forEach((player) => {
     const playerElement = document.querySelector(`#${player.id} .chips`);
     const betElement = document.querySelector(`#${player.id} .bet`);
